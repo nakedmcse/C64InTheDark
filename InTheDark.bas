@@ -185,3 +185,10 @@
 1961 return
 
 1980 rem fixoverlap
+1981 if rm(ri+1,4)>rm(ri,2) then rm(ri+1,4)=rm(ri,2):goto 1985
+1982 if rm(ri+1,2)<rm(ri,4) then rm(ri+1,2)=rm(ri,4):goto 1985
+1983 if rm(ri+1,3)>rm(ri,1) then rm(ri+3,1)=rm(ri,1):goto 1985
+1984 if rm(ri+1,1)>rm(ri,3) then rm(ri+1,1)=rm(ri,3)
+1985 rw = rm(ri+1,3)-rm(ri+1,1):rh = rm(ri+1,4)-rm(ri+1,2)
+1986 if rw<mw or rh<mh then gn=0: rem overlap cannot be fixed by clip
+1987 return
