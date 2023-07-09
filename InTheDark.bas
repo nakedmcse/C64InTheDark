@@ -26,7 +26,7 @@
 106 next i
 107 print "generated ";di;" doors"
 108 for i = 1 to di
-109 print "door ";i;" x=";do(i,1);",y=";do(i,2)
+109 print "door ";i;" x=";do(i,1);",y=";do(i,2);" ";do(i,3);">";do(i,4)
 110 next i
 111 end
 
@@ -115,10 +115,10 @@
 1606 hd(3)=0:return:rem no room hit
 
 1700 rem cansee - hd(1) = room index hd(2) = room target
-1701 for i = 1 to 40:if do(i,1)=-1 goto 1704
-1702 if hd(1)=do(3) and hd(2)=do(4) and do(5)=1 goto 1706
-1703 if hd(1)=do(4) and hd(2)=do(3) and do(5)=1 goto 1706
-1704 next i
+1701 for cs = 1 to 40:if do(cs,1)=-1 goto 1704
+1702 if hd(1)=do(cs,3) and hd(2)=do(cs,4) and do(cs,5)=1 goto 1706
+1703 if hd(1)=do(cs,4) and hd(2)=do(cs,3) and do(cs,5)=1 goto 1706
+1704 next cs
 1705 hd(3)=0:return:rem cannot see
 1706 hd(3)=1:return:rem can see
 
@@ -210,10 +210,10 @@
 
 2000 rem doornotfound - hd(1) = room index hd(2) = room target
 2001 fd = 0
-2002 for i = 1 to 40:if do(i,1)=-1 goto 1704
-2003 if hd(1)=do(3) and hd(2)=do(4) then fd=1 : goto 2006
-2004 if hd(1)=do(4) and hd(2)=do(3) then fd=1 : goto 2006
-2005 next i
+2002 for k = 1 to 40:if do(k,1)=-1 goto 2005
+2003 if hd(1)=do(k,3) and hd(2)=do(k,4) then fd=1 : goto 2006
+2004 if hd(1)=do(k,4) and hd(2)=do(k,3) then fd=1 : goto 2006
+2005 next k
 2006 if fd=0 then hd(3)=1:return:rem door not found
 2007 if fd=1 then hd(3)=0:return:rem door found
 
@@ -245,33 +245,35 @@
 2060 rem eastdoor
 2061 do(di,1)=rm(i,3)
 2062 rr(1)=rm(i,2):rr(2)=rm(j,2):rr(3)=rm(i,4):rr(4)=rm(j,4):gosub 2020
-2063 do(di,2)=rr(5)
+2063 do(di,2)=rr(5):print "e";do(di,1);",";do(di,2)
 2064 di=di+1 : return
 
 2070 rem westdoor
 2061 do(di,1)=rm(i,1)
 2062 rr(1)=rm(i,2):rr(2)=rm(j,2):rr(3)=rm(i,4):rr(4)=rm(j,4):gosub 2020
-2063 do(di,2)=rr(5)
+2063 do(di,2)=rr(5)::print "w";do(di,1);",";do(di,2)
 2064 di=di+1 : return
 
 2080 rem northdoor
 2061 do(di,2)=rm(i,4)
 2062 rr(1)=rm(i,1):rr(2)=rm(j,1):rr(3)=rm(i,3):rr(4)=rm(j,3):gosub 2020
-2063 do(di,1)=rr(5)
+2063 do(di,1)=rr(5):print "n";do(di,1);",";do(di,2)
 2064 di=di+1 : return
 
 2090 rem southdoor
 2091 do(di,2)=rm(i,2)
 2092 rr(1)=rm(i,1):rr(2)=rm(j,1):rr(3)=rm(i,3):rr(4)=rm(j,3):gosub 2020
-2093 do(di,1)=rr(5)
+2093 do(di,1)=rr(5):print "s";do(di,1);",";do(di,2)
 2094 di=di+1 : return
 
 2100 rem generatedungeon
-2101 ri=1:hd(3)=1
-2102 gosub 1200: rem create first room
-2103 for r=2 to 9
-2104 print "ri=";ri:if hd(3)=1 then gosub 1800: rem create next room
-2105 next r
-2106 if ri<5 goto 2101:rem less than 5 rooms, retry
-2107 gosub 2040: rem generate doors
-2108 return
+2101 at=0
+2102 print chr$(147)
+2103 ri=1:hd(3)=1:at=at+1:print "generating dungeon attempt";at;"..."
+2104 gosub 1200: rem create first room
+2105 for r=2 to 9
+2106 if hd(3)=1 then gosub 1800: rem create next room
+2107 next r
+2108 if ri<5 goto 2102:rem less than 5 rooms, retry
+2109 gosub 2040: rem generate doors
+2110 return
