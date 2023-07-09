@@ -132,7 +132,7 @@
 1821 if gn=0 then rm(ri+1,1)=-1: rem reset to undefined on fail
 1822 return
 
-1900 rem genuproom
+1900 rem genrightroom
 1901 rm(ri+1,3)=rm(ri,1):rem x2=crx1
 1902 if rm(ri+1,3)-w < 1 then w = rm(ri+1,3)-1
 1903 if w<lw then gn=0
@@ -145,11 +145,11 @@
 1910 rm(ri+1,4)=rm(ri+1,2)+h: rem y2
 1911 return
 
-1920 rem gendownroom -- todo
-1921 rm(ri+1,3)=rm(ri,1):rem x2=crx1
-1922 if rm(ri+1,3)-w < 1 then w = rm(ri+1,3)-1
+1920 rem genleftroom
+1921 rm(ri+1,1)=rm(ri,3):rem x1=crx2
+1922 if rm(ri+1,1)+w > sw then w = sw-rm(ri+1,1)
 1923 if w<lw then gn=0
-1924 rm(ri+1,1)=rm(ri+1,3)-w: rem x1 = x2-w
+1924 rm(ri+1,3)=rm(ri+1,1)+w: rem x2 = x1+w
 1925 y=int(rnd(1)*(rm(ri,4)-rm(ri,2)-1))+rm(ri,2)+1:rem cry2-cry1-1
 1926 if y-int(h/2) < 1 then h=y
 1927 if y-int(h/2)+h >= sh then h=sh-y-1
@@ -158,31 +158,31 @@
 1930 rm(ri+1,4)=rm(ri+1,2)+h: rem y2
 1931 return
 
-1940 rem genleftroom -- todo
-1941 rm(ri+1,3)=rm(ri,1):rem x2=crx1
-1942 if rm(ri+1,3)-w < 1 then w = rm(ri+1,3)-1
-1943 if w<lw then gn=0
-1944 rm(ri+1,1)=rm(ri+1,3)-w: rem x1 = x2-w
-1945 y=int(rnd(1)*(rm(ri,4)-rm(ri,2)-1))+rm(ri,2)+1:rem cry2-cry1-1
-1946 if y-int(h/2) < 1 then h=y
-1947 if y-int(h/2)+h >= sh then h=sh-y-1
-1948 if h<mh then gn=0
-1949 rm(ri+1,2)=y-int(h/2): rem y1
-1940 rm(ri+1,4)=rm(ri+1,2)+h: rem y2
+1940 rem genuproom
+1941 rm(ri+1,4)=rm(ri,2):rem y2=cry1
+1942 if rm(ri+1,4)-h < 1 then h = rm(ri+1,4)-1
+1943 if h<lh then gn=0
+1944 rm(ri+1,2)=rm(ri+1,4)-h: rem y1 = y2-h
+1945 x=int(rnd(1)*(rm(ri,3)-rm(ri,1)-1))+rm(ri,1)+1:rem crx2-crx1-1
+1946 if x-int(w/2) < 1 then w=x
+1947 if x-int(w/2)+w >= sw then w=sw-x-1
+1948 if w<mw then gn=0
+1949 rm(ri+1,1)=x-int(w/2): rem x1
+1940 rm(ri+1,3)=rm(ri+1,1)+w: rem x2
 1941 return
 
-1960 rem genrightroom -- todo
-1961 rm(ri+1,3)=rm(ri,1):rem x2=crx1
-1962 if rm(ri+1,3)-w < 1 then w = rm(ri+1,3)-1
-1963 if w<lw then gn=0
-1964 rm(ri+1,1)=rm(ri+1,3)-w: rem x1 = x2-w
-1965 y=int(rnd(1)*(rm(ri,4)-rm(ri,2)-1))+rm(ri,2)+1:rem cry2-cry1-1
-1966 if y-int(h/2) < 1 then h=y
-1967 if y-int(h/2)+h >= sh then h=sh-y-1
-1968 if h<mh then gn=0
-1969 rm(ri+1,2)=y-int(h/2): rem y1
-1960 rm(ri+1,4)=rm(ri+1,2)+h: rem y2
-1961 return
+1960 rem gendownroom
+1961 rm(ri+1,2)=rm(ri,4):rem y1=cry2
+1962 if rm(ri+1,2)+h > sh then h = sh-rm(ri+1,2)
+1963 if h<lh then gn=0
+1964 rm(ri+1,4)=rm(ri+1,2)+h: rem y2 = y1+h
+1965 x=int(rnd(1)*(rm(ri,3)-rm(ri,1)-1))+rm(ri,1)+1:rem crx2-crx1-1
+1966 if x-int(w/2) < 1 then w=x
+1967 if x-int(w/2)+w >= sw then w=sw-x-1
+1968 if w<mw then gn=0
+1969 rm(ri+1,1)=x-int(w/2): rem x1
+1970 rm(ri+1,3)=rm(ri+1,1)+w: rem x2
+1971 return
 
 1980 rem fixoverlap
 1981 if rm(ri+1,4)>rm(ri,2) then rm(ri+1,4)=rm(ri,2):goto 1985
