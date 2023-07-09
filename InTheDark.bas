@@ -11,20 +11,24 @@
 11 dim it(50,10):rem item x,y,room,type,taken,light,treas,d1idx,d2idx,redraw
 12 for i=1 to 50:it(i,1)=-1:next i:rem init items (-1 undefined)
 13 ri=0:di=0:ii=0:mi=0:rem room index, door index, item index, monster idx
-14 sw=22:sh=23:rem c64 screen wxh
+14 sw=40:sh=25:rem c64 screen wxh
 15 lw=3:lh=6:uw=7:uh=10:mw=3:mh=3:rem room sizes
 16 dim rr(5):rem random range min1,min2,max1,max2,result
 17 n$="":ni=0:a$="":ai=0:rem noun, adjective
 18 z=rnd(-ti):rem init random
 
 100 rem main loop
-101 gosub 2100: rem generate dungeon
-102 print "Generated ";ri;" rooms"
-103 for i = 1 to ri
-104 print "Room ";i;" x=";rm(i,1);",y=";rm(i,2);",x=";rm(i,3);",y=";rm(i,4)
-105 next i
-106 print "Generated ";di;" doors"
-107 end
+101 print chr$(147):rem cls
+102 gosub 2100: rem generate dungeon
+103 print "generated ";ri;" rooms"
+104 for i = 1 to ri
+105 print "room ";i;" x=";rm(i,1);",y=";rm(i,2);",x=";rm(i,3);",y=";rm(i,4)
+106 next i
+107 print "generated ";di;" doors"
+108 for i = 1 to di
+109 print "door ";i;" x=";do(i,1);",y=";do(i,2)
+110 next i
+111 end
 
 1000 rem noun set
 1001 if ni=0 then n$="match":return
@@ -228,14 +232,14 @@
 2043 for j = 1 to i 
 2044 do(di,3)=i:do(di,4)=j:do(di,5)=0: rem r1,r2,closed
 2045 hd(1)=i:hd(2)=j:hd(3)=0:gosub 2000: rem check no existing door
-2046 if hd(3)=0 goto 2047
+2046 if hd(3)=0 goto 2051
 2047 if rm(i,3)=rm(j,1) and rm(j,2)<rm(i,4) and rm(j,4)>rm(i,2) then gosub 2060
 2048 if rm(i,1)=rm(j,3) and rm(j,2)<rm(i,4) and rm(j,4)>rm(i,2) then gosub 2070
 2049 if rm(i,4)=rm(j,2) and rm(j,1)<rm(i,3) and rm(j,3)>rm(i,1) then gosub 2080
 2050 if rm(i,2)=rm(j,4) and rm(j,1)<rm(i,3) and rm(j,3)>rm(i,1) then gosub 2090
 2051 next j
 2052 next i
-2053 di = di-1: rem why??
+2053 di = di-1: rem di is next door working on
 2054 return
 
 2060 rem eastdoor
