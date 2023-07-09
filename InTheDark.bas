@@ -13,8 +13,11 @@
 13 ri=0:di=0:ii=0:mi=0:rem room index, door index, item index, monster idx
 14 sw=22:sh=23:rem vic 20 screen wxh
 15 lw=3:lh=6:uw=7:uh=10:mw=3:mh=3:rem room sizes
-16 no="":ni=0:ad="":ai=0:rem noun, adjective
-17 rnd(-ti):rem init random
+16 dim rr[5]:rem random range min1,min2,max1,max2,result
+17 no="":ni=0:ad="":ai=0:rem noun, adjective
+18 rnd(-ti):rem init random
+
+100 rem main loop
 
 1000 rem noun set
 1001 if ni=0 then no="match":return
@@ -128,8 +131,8 @@
 1817 d = (d+1) - int((d+1)/4) * 4: rem d+1 mod 4
 1818 if d=ds then ta=0: rem tried all ordinals
 1819 if ta=1 goto 1805 : rem try again if set
-1820 if gn=1 then ri = ri+1 : rem increment room index on sucess
-1821 if gn=0 then rm(ri+1,1)=-1: rem reset to undefined on fail
+1820 if gn=1 then ri = ri+1:hd(3)=1:rem increment room index on sucess
+1821 if gn=0 then rm(ri+1,1)=-1:hd(3)=0: rem reset to undefined on fail
 1822 return
 
 1900 rem genrightroom
@@ -192,3 +195,71 @@
 1985 rw = rm(ri+1,3)-rm(ri+1,1):rh = rm(ri+1,4)-rm(ri+1,2)
 1986 if rw<mw or rh<mh then gn=0: rem overlap cannot be fixed by clip
 1987 return
+
+2000 rem doornotfound - hd(1) = room index hd(2) = room target
+2001 fd = 0
+2002 for i = 1 to 40:if do(i,1)=-1 goto 1704
+2003 if hd(1)=do(3) and hd(2)=do(4) then fd=1 : goto 2006
+2004 if hd(1)=do(4) and hd(2)=do(3) then fd=1 : goto 2006
+2005 next i
+2006 if fd=0 then hd(3)=1:return:rem door not found
+2007 if fd=1 then hd(3)=0:return:rem door found
+
+2020 rem randominrange - rr min1,min2,max1,max2,result
+2021 if rr(1)>rr(2) then am=rr(1)+1:goto 2023
+2022 am=rr(2)+1
+2023 if rr(3)<rr(4) then ax=rr(3)-1:goto 2025
+2024 ax=rr(4)-1
+2025 ar=ax-am
+2026 if a>0 then rr(5)=am+int(rnd(1)*a):return
+2027 rr(5)=am:return
+
+2040 rem generatedoors
+2041 di = 1
+2042 for i = 1 to ri : rem compare room to all prev rooms
+2043 for j = 1 to i 
+2044 do(di,3)=i:do(di,4)=j:do(di,5)=0: rem r1,r2,closed
+2045 hd(1)=i:hd(2)=j:hd(3)=0:gosub 2000: rem check no existing door
+2046 if hd(3)=0 goto 2047
+2047 if rm(i,3)=rm(j,1) and rm(j,2)<rm(i,4) and rm(j,4)>rm(i,2) gosub 2060
+2048 if rm(i,1)=rm(j,3) and rm(j,2)<rm(i,4) and rm(j,4)>rm(i,2) gosub 2070
+2049 if rm(i,4)=rm(j,2) and rm(j,1)<rm(i,3) and rm(j,3)>rm(i,1) gosub 2080
+2050 if rm(i,2)=rm(j,4) and rm(j,1)<rm(i,3) and rm(j,3)>rm(i,1) gosub 2090
+2051 next j
+2052 next i
+2053 di = di-1: rem why??
+2054 return
+
+2060 rem eastdoor
+2061 do(di,1)=rm(i,3)
+2062 rr(1)=rm(i,2):rr(2)=rm(j,2):rr(3)=rm(i,4):rr(4)=rm(j,4):gosub 2020
+2063 do(di,2)=rr(5)
+2064 di=di+1 : return
+
+2070 rem westdoor
+2061 do(di,1)=rm(i,1)
+2062 rr(1)=rm(i,2):rr(2)=rm(j,2):rr(3)=rm(i,4):rr(4)=rm(j,4):gosub 2020
+2063 do(di,2)=rr(5)
+2064 di=di+1 : return
+
+2080 rem northdoor
+2061 do(di,2)=rm(i,4)
+2062 rr(1)=rm(i,1):rr(2)=rm(j,1):rr(3)=rm(i,3):rr(4)=rm(j,3):gosub 2020
+2063 do(di,1)=rr(5)
+2064 di=di+1 : return
+
+2090 rem southdoor
+2091 do(di,2)=rm(i,2)
+2092 rr(1)=rm(i,1):rr(2)=rm(j,1):rr(3)=rm(i,3):rr(4)=rm(j,3):gosub 2020
+2093 do(di,1)=rr(5)
+2094 di=di+1 : return
+
+2100 rem generatedungeon
+2101 ri = 1:hd(3) = 1;
+2102 gosub 1200: rem create first room
+2103 for r=2 to 10
+2104 if hd(3)=1 gosub 1800: rem create next room
+2105 next r
+2106 if ri<5 goto 2101:rem less than 5 rooms, retry
+2107 gosub 2040: rem generate doors
+2108 return
