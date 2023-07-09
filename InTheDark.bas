@@ -131,16 +131,17 @@
 1810 if d=3 then gosub 1960 : rem move left 
 1811 for o=1 to ri:rem check for overlap
 1812 ol(1)=rm(o,1):ol(2)=rm(o,2):ol(3)=rm(o,3):ol(4)=rm(o,4)
-1813 ol(5)=rm(ri+1,5):ol(6)=rm(ri+1,6):ol(7)=rm(ri+1,7):ol(8)=rm(ri+1,8)
+1813 ol(5)=rm(ri+1,1):ol(6)=rm(ri+1,2):ol(7)=rm(ri+1,3):ol(8)=rm(ri+1,4)
 1814 ol(9)=0:gosub 1300: rem check overlap
 1815 if ol(9)=1 then gosub 1980: rem fix overlap
-1816 if gn=1 then ta=0: goto 1820: rem sucess, so no try again
-1817 d = (d+1) - int((d+1)/4) * 4: rem d+1 mod 4
-1818 if d=ds then ta=0: rem tried all ordinals
-1819 if ta=1 goto 1805 : rem try again if set
-1820 if gn=1 then ri = ri+1:hd(3)=1:rem increment room index on sucess
-1821 if gn=0 then rm(ri+1,1)=-1:hd(3)=0: rem reset to undefined on fail
-1822 return
+1816 next o
+1817 if gn=1 then ta=0: goto 1821: rem sucess, so no try again
+1818 d = (d+1) - int((d+1)/4) * 4: rem d+1 mod 4
+1819 if d=ds then ta=0: rem tried all ordinals
+1820 if ta=1 goto 1805 : rem try again if set
+1821 if gn=1 then ri = ri+1:hd(3)=1:rem increment room index on sucess
+1822 if gn=0 then rm(ri+1,1)=-1:hd(3)=0: rem reset to undefined on fail
+1823 return
 
 1900 rem genrightroom
 1901 rm(ri+1,3)=rm(ri,1):rem x2=crx1
