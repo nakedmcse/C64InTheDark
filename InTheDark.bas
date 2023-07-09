@@ -13,9 +13,9 @@
 13 ri=0:di=0:ii=0:mi=0:rem room index, door index, item index, monster idx
 14 sw=22:sh=23:rem c64 screen wxh
 15 lw=3:lh=6:uw=7:uh=10:mw=3:mh=3:rem room sizes
-16 dim rr[5]:rem random range min1,min2,max1,max2,result
-17 no="":ni=0:ad="":ai=0:rem noun, adjective
-18 rnd(-ti):rem init random
+16 dim rr(5):rem random range min1,min2,max1,max2,result
+17 n$="":ni=0:a$="":ai=0:rem noun, adjective
+18 z=rnd(-ti):rem init random
 
 100 rem main loop
 101 gosub 2100: rem generate dungeon
@@ -27,49 +27,49 @@
 107 end
 
 1000 rem noun set
-1001 if ni=0 then no="match":return
-1002 if ni=1 then no="candle":return
-1003 if ni=2 then no="glow worms":return
-1004 if ni=3 then no="branch":return
-1005 if ni=4 then no="squash":return
-1006 if ni=5 then no="bulb":return
-1007 if ni=6 then no="torch":return
-1008 if ni=7 then no="rock":return
-1009 if ni=8 then no="torch":return
-1010 if ni=9 then no="brass lantern":return
-1011 if ni=10 then no="painting":return
-1012 if ni=11 then no="egg":return
-1013 if ni=12 then no="jewel":return
-1014 if ni=13 then no="belt buckle":return
-1015 if ni=14 then no="casket":return
-1016 if ni=15 then no="crystal skull":return
-1017 if ni=16 then no="pearl":return
-1018 if ni=17 then no="piece of eight":return
-1019 if ni=18 then no="fish scale":return
-1020 if ni=19 then no="carpenters chalice":return
+1001 if ni=0 then n$="match":return
+1002 if ni=1 then n$="candle":return
+1003 if ni=2 then n$="glow worms":return
+1004 if ni=3 then n$="branch":return
+1005 if ni=4 then n$="squash":return
+1006 if ni=5 then n$="bulb":return
+1007 if ni=6 then n$="torch":return
+1008 if ni=7 then n$="rock":return
+1009 if ni=8 then n$="torch":return
+1010 if ni=9 then n$="brass lantern":return
+1011 if ni=10 then n$="painting":return
+1012 if ni=11 then n$="egg":return
+1013 if ni=12 then n$="jewel":return
+1014 if ni=13 then n$="belt buckle":return
+1015 if ni=14 then n$="casket":return
+1016 if ni=15 then n$="crystal skull":return
+1017 if ni=16 then n$="pearl":return
+1018 if ni=17 then n$="piece of eight":return
+1019 if ni=18 then n$="fish scale":return
+1020 if ni=19 then n$="carpenters chalice":return
 1021 return
 
 1100 rem adjective set
-1101 if ai=0 then ad="glimmering":return
-1102 if ai=1 then ad="shimmering":return
-1103 if ai=2 then ad="bright":return
-1104 if ai=3 then ad="golden":return
-1105 if ai=4 then ad="sparkling":return
-1106 if ai=5 then ad="battery powered":return
-1107 if ai=6 then ad="radiant":return
-1108 if ai=7 then ad="luminos":return
-1109 if ai=8 then ad="flashing":return
-1110 if ai=9 then ad="brilliant":return
-1111 if ai=10 then ad="wooden":return
-1112 if ai=11 then ad="illustrated":return
-1113 if ai=12 then ad="golden":return
-1114 if ai=13 then ad="bejeweled":return
-1115 if ai=14 then ad="plain":return
-1116 if ai=15 then ad="resplendant":return
-1117 if ai=16 then ad="ghostly":return
-1118 if ai=17 then ad="oozing":return
-1119 if ai=18 then ad="gigantic":return
-1120 if ai=19 then ad="clockwork":return
+1101 if ai=0 then a$="glimmering":return
+1102 if ai=1 then a$="shimmering":return
+1103 if ai=2 then a$="bright":return
+1104 if ai=3 then a$="golden":return
+1105 if ai=4 then a$="sparkling":return
+1106 if ai=5 then a$="battery powered":return
+1107 if ai=6 then a$="radiant":return
+1108 if ai=7 then a$="luminos":return
+1109 if ai=8 then a$="flashing":return
+1110 if ai=9 then a$="brilliant":return
+1111 if ai=10 then a$="wooden":return
+1112 if ai=11 then a$="illustrated":return
+1113 if ai=12 then a$="golden":return
+1114 if ai=13 then a$="bejeweled":return
+1115 if ai=14 then a$="plain":return
+1116 if ai=15 then a$="resplendant":return
+1117 if ai=16 then a$="ghostly":return
+1118 if ai=17 then a$="oozing":return
+1119 if ai=18 then a$="gigantic":return
+1120 if ai=19 then a$="clockwork":return
 1121 return
 
 1200 rem firstroom - gen first room
@@ -125,15 +125,15 @@
 1804 gn=1: rem generate next
 1805 w=int(rnd(1)*(uw-lw))+lw+1
 1806 h=int(rnd(1)*(uh-lh))+lh+1
-1807 if d=0 gosub 1900 : rem move up
-1808 if d=1 gosub 1920 : rem move down
-1809 if d=2 gosub 1940 : rem move right
-1810 if d=3 gosub 1960 : rem move left 
+1807 if d=0 then gosub 1900 : rem move up
+1808 if d=1 then gosub 1920 : rem move down
+1809 if d=2 then gosub 1940 : rem move right
+1810 if d=3 then gosub 1960 : rem move left 
 1811 for o=1 to ri:rem check for overlap
 1812 ol(1)=rm(o,1):ol(2)=rm(o,2):ol(3)=rm(o,3):ol(4)=rm(o,4)
 1813 ol(5)=rm(ri+1,5):ol(6)=rm(ri+1,6):ol(7)=rm(ri+1,7):ol(8)=rm(ri+1,8)
 1814 ol(9)=0:gosub 1300: rem check overlap
-1815 if ol(9)=1 gosub 1980: rem fix overlap
+1815 if ol(9)=1 then gosub 1980: rem fix overlap
 1816 if gn=1 then ta=0: goto 1820: rem sucess, so no try again
 1817 d = (d+1) - int((d+1)/4) * 4: rem d+1 mod 4
 1818 if d=ds then ta=0: rem tried all ordinals
@@ -228,10 +228,10 @@
 2044 do(di,3)=i:do(di,4)=j:do(di,5)=0: rem r1,r2,closed
 2045 hd(1)=i:hd(2)=j:hd(3)=0:gosub 2000: rem check no existing door
 2046 if hd(3)=0 goto 2047
-2047 if rm(i,3)=rm(j,1) and rm(j,2)<rm(i,4) and rm(j,4)>rm(i,2) gosub 2060
-2048 if rm(i,1)=rm(j,3) and rm(j,2)<rm(i,4) and rm(j,4)>rm(i,2) gosub 2070
-2049 if rm(i,4)=rm(j,2) and rm(j,1)<rm(i,3) and rm(j,3)>rm(i,1) gosub 2080
-2050 if rm(i,2)=rm(j,4) and rm(j,1)<rm(i,3) and rm(j,3)>rm(i,1) gosub 2090
+2047 if rm(i,3)=rm(j,1) and rm(j,2)<rm(i,4) and rm(j,4)>rm(i,2) then gosub 2060
+2048 if rm(i,1)=rm(j,3) and rm(j,2)<rm(i,4) and rm(j,4)>rm(i,2) then gosub 2070
+2049 if rm(i,4)=rm(j,2) and rm(j,1)<rm(i,3) and rm(j,3)>rm(i,1) then gosub 2080
+2050 if rm(i,2)=rm(j,4) and rm(j,1)<rm(i,3) and rm(j,3)>rm(i,1) then gosub 2090
 2051 next j
 2052 next i
 2053 di = di-1: rem why??
@@ -262,10 +262,10 @@
 2094 di=di+1 : return
 
 2100 rem generatedungeon
-2101 ri = 1:hd(3) = 1;
+2101 ri=1:hd(3)=1
 2102 gosub 1200: rem create first room
-2103 for r=2 to 10
-2104 if hd(3)=1 gosub 1800: rem create next room
+2103 for r=2 to 9
+2104 print "ri=";ri:if hd(3)=1 then gosub 1800: rem create next room
 2105 next r
 2106 if ri<5 goto 2101:rem less than 5 rooms, retry
 2107 gosub 2040: rem generate doors
