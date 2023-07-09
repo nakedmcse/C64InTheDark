@@ -11,13 +11,20 @@
 11 dim it(50,10):rem item x,y,room,type,taken,light,treas,d1idx,d2idx,redraw
 12 for i=1 to 50:it(i,1)=-1:next i:rem init items (-1 undefined)
 13 ri=0:di=0:ii=0:mi=0:rem room index, door index, item index, monster idx
-14 sw=22:sh=23:rem vic 20 screen wxh
+14 sw=22:sh=23:rem c64 screen wxh
 15 lw=3:lh=6:uw=7:uh=10:mw=3:mh=3:rem room sizes
 16 dim rr[5]:rem random range min1,min2,max1,max2,result
 17 no="":ni=0:ad="":ai=0:rem noun, adjective
 18 rnd(-ti):rem init random
 
 100 rem main loop
+101 gosub 2100: rem generate dungeon
+102 print "Generated ";ri;" rooms"
+103 for i = 1 to ri
+104 print "Room ";i;" x=";rm(i,1);",y=";rm(i,2);",x=";rm(i,3);",y=";rm(i,4)
+105 next i
+106 print "Generated ";di;" doors"
+107 end
 
 1000 rem noun set
 1001 if ni=0 then no="match":return
