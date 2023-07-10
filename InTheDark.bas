@@ -12,7 +12,7 @@
 12 for i=1 to 50:it(i,1)=-1:next i:rem init items (-1 undefined)
 13 ri=0:di=0:ii=0:mi=0:rem room index, door index, item index, monster idx
 14 sw=40:sh=25:rem c64 screen wxh
-15 lw=3:lh=6:uw=7:uh=10:mw=3:mh=3:rem room sizes
+15 lw=6:lh=6:uw=10:uh=10:mw=3:mh=3:rem room sizes
 16 dim rr(5):rem random range min1,min2,max1,max2,result
 17 n$="":ni=0:a$="":ai=0:rem noun, adjective
 18 z=rnd(-ti):rem init random
@@ -129,28 +129,28 @@
 1804 gn=1: rem generate next
 1805 w=int(rnd(1)*(uw-lw))+lw+1
 1806 h=int(rnd(1)*(uh-lh))+lh+1
-1807 if d=0 then gosub 1900 : rem move up
-1808 if d=1 then gosub 1920 : rem move down
-1809 if d=2 then gosub 1940 : rem move right
-1810 if d=3 then gosub 1960 : rem move left 
+1807 if d=0 then gosub 1900 : rem move right
+1808 if d=1 then gosub 1920 : rem move left
+1809 if d=2 then gosub 1940 : rem move up
+1810 if d=3 then gosub 1960 : rem move down 
 1811 for o=1 to ri:rem check for overlap
 1812 ol(1)=rm(o,1):ol(2)=rm(o,2):ol(3)=rm(o,3):ol(4)=rm(o,4)
 1813 ol(5)=rm(ri+1,1):ol(6)=rm(ri+1,2):ol(7)=rm(ri+1,3):ol(8)=rm(ri+1,4)
 1814 ol(9)=0:gosub 1300: rem check overlap
 1815 if ol(9)=1 then gosub 1980: rem fix overlap
 1816 next o
-1817 if gn=1 then ta=0: goto 1821: rem sucess, so no try again
+1817 if gn=1 then ta=0:goto 1821: rem sucess, so no try again
 1818 d = (d+1) - int((d+1)/4) * 4: rem d+1 mod 4
 1819 if d=ds then ta=0: rem tried all ordinals
 1820 if ta=1 goto 1805 : rem try again if set
-1821 if gn=1 then ri = ri+1:hd(3)=1:rem increment room index on sucess
+1821 if gn=1 then ri = ri+1:hd(3)=1:goto 1823:rem inc room index on sucess
 1822 if gn=0 then rm(ri+1,1)=-1:hd(3)=0: rem reset to undefined on fail
 1823 return
 
 1900 rem genrightroom
 1901 rm(ri+1,3)=rm(ri,1):rem x2=crx1
 1902 if rm(ri+1,3)-w < 1 then w = rm(ri+1,3)-1
-1903 if w<lw then gn=0
+1903 if w<mw then gn=0
 1904 rm(ri+1,1)=rm(ri+1,3)-w: rem x1 = x2-w
 1905 y=int(rnd(1)*(rm(ri,4)-rm(ri,2)-1))+rm(ri,2)+1:rem cry2-cry1-1
 1906 if y-int(h/2) < 1 then h=y
@@ -163,7 +163,7 @@
 1920 rem genleftroom
 1921 rm(ri+1,1)=rm(ri,3):rem x1=crx2
 1922 if rm(ri+1,1)+w > sw then w = sw-rm(ri+1,1)
-1923 if w<lw then gn=0
+1923 if w<mw then gn=0
 1924 rm(ri+1,3)=rm(ri+1,1)+w: rem x2 = x1+w
 1925 y=int(rnd(1)*(rm(ri,4)-rm(ri,2)-1))+rm(ri,2)+1:rem cry2-cry1-1
 1926 if y-int(h/2) < 1 then h=y
@@ -176,7 +176,7 @@
 1940 rem genuproom
 1941 rm(ri+1,4)=rm(ri,2):rem y2=cry1
 1942 if rm(ri+1,4)-h < 1 then h = rm(ri+1,4)-1
-1943 if h<lh then gn=0
+1943 if h<mh then gn=0
 1944 rm(ri+1,2)=rm(ri+1,4)-h: rem y1 = y2-h
 1945 x=int(rnd(1)*(rm(ri,3)-rm(ri,1)-1))+rm(ri,1)+1:rem crx2-crx1-1
 1946 if x-int(w/2) < 1 then w=x
@@ -189,7 +189,7 @@
 1960 rem gendownroom
 1961 rm(ri+1,2)=rm(ri,4):rem y1=cry2
 1962 if rm(ri+1,2)+h > sh then h = sh-rm(ri+1,2)
-1963 if h<lh then gn=0
+1963 if h<mh then gn=0
 1964 rm(ri+1,4)=rm(ri+1,2)+h: rem y2 = y1+h
 1965 x=int(rnd(1)*(rm(ri,3)-rm(ri,1)-1))+rm(ri,1)+1:rem crx2-crx1-1
 1966 if x-int(w/2) < 1 then w=x
@@ -272,8 +272,8 @@
 2103 ri=1:hd(3)=1:at=at+1:print "generating dungeon attempt";at;"..."
 2104 gosub 1200: rem create first room
 2105 for r=2 to 9
-2106 if hd(3)=1 then gosub 1800: rem create next room
-2107 next r
-2108 if ri<5 goto 2102:rem less than 5 rooms, retry
-2109 gosub 2040: rem generate doors
-2110 return
+2107 if hd(3)=1 then print ri:gosub 1800: rem create next room
+2108 next r
+2109 if ri<5 goto 2102:rem less than 5 rooms, retry
+2110 gosub 2040: rem generate doors
+2111 return
