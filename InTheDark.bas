@@ -15,20 +15,29 @@
 15 lw=6:lh=6:uw=10:uh=10:mw=3:mh=3:rem room sizes
 16 dim rr(5):rem random range min1,min2,max1,max2,result
 17 n$="":ni=0:a$="":ai=0:rem noun, adjective
-18 z=rnd(-ti):rem init random
+18 dc=1:im=1:rem dungeon level, items max
+19 l=0:t=0:li=0:xi=0:rem light, treasure, light item index, treas item index
+20 z=rnd(-ti):rem init random
 
 100 rem main loop
-101 print chr$(147):rem cls
+101 gosub 900: rem set screen colors
 102 gosub 2100: rem generate dungeon
-103 print "generated ";ri;" rooms"
-104 for i = 1 to ri
-105 print "room ";i;" x=";rm(i,1);",y=";rm(i,2);",x=";rm(i,3);",y=";rm(i,4)
-106 next i
-107 print "generated ";di;" doors"
-108 for i = 1 to di
-109 print "door ";i;" x=";do(i,1);",y=";do(i,2);" ";do(i,3);">";do(i,4)
+103 print "generated";ri;"rooms"
+104 print "generated";di;"doors"
+105 gosub 2700: rem generate items
+106 print "generated";ii;"items"
+107 for i = 1 to ii
+108 if it(i,4)=1 then print "light r";it(i,3):goto 110
+109 print "treas r";it(i,3)
 110 next i
 111 end
+
+900 rem set screen colors -- c64 specific!
+901 poke 53280,0:rem border black
+902 poke 53281,0:rem background black
+903 poke 646,5:rem text green
+904 print chr$(147):rem cls
+905 return
 
 1000 rem noun set
 1001 if ni=0 then n$="match":return
@@ -76,6 +85,7 @@
 1120 if ai=19 then a$="clockwork":return
 1121 return
 
+1199 rem room.inc related code
 1200 rem firstroom - gen first room
 1201 rm(1,1)=int(rnd(1)*(sw-uw-1))+1:rem x1
 1202 rm(1,2)=int(rnd(1)*(sh-uh-1))+1:rem y1
@@ -272,8 +282,74 @@
 2103 ri=1:hd(3)=1:at=at+1:print "generating dungeon attempt";at;"..."
 2104 gosub 1200: rem create first room
 2105 for r=2 to 9
-2107 if hd(3)=1 then print ri:gosub 1800: rem create next room
+2107 if hd(3)=1 then gosub 1800: rem create next room
 2108 next r
 2109 if ri<5 goto 2102:rem less than 5 rooms, retry
 2110 gosub 2040: rem generate doors
 2111 return
+
+2199 rem items.inc related code
+2200 rem generatelight
+2201 p = rnd(1)
+2202 dl=1:du=3:rem base values
+2203 if p>0.95 then dl=9:du=10:goto 2207
+2204 if p>0.9 then dl=7:du=9:goto 2207
+2205 if p>0.8 then dl=4:du=8:goto 2207
+2206 if p>0.6 then dl=2:du=5
+2207 mu=1:rem base multiplier - worst 1:1
+2208 if dc+1<=16 then mu = int(16/dc+1):rem light gets worse with level
+2209 it(ii,4)=1:rem type light 1
+2210 it(ii,5)=0:rem taken false
+2211 it(ii,6)=(int(rnd(1)*(du-dl))+dl)*mu:rem light level
+2212 it(ii,7)=0:rem treasure value
+2213 it(ii,8)=(int(rnd(1)*(du-dl))+dl): rem d1
+2214 it(ii,9)=int(rnd(1)*10): rem d2
+2215 it(ii,10)=0:rem redraw
+2216 return
+
+2300 rem generatetreasure
+2301 it(ii,4)=2:rem type treasure 2
+2302 it(ii,5)=0:rem taken false
+2303 it(ii,6)=0:rem light level
+2304 it(ii,7)=1:rem treasure value (1 - all equal)
+2305 it(ii,8)=int(rnd(1)*10)+10: rem d1
+2306 it(ii,9)=int(rnd(1)*10)+10: rem d2
+2307 it(ii,10)=0:rem redraw
+2308 return
+
+2400 rem hititem
+2401 hd(3)=-1:rem no hit
+2402 z=1
+2403 if it(z,1)=hd(1) and it(z,2)=hd(2) and it(z,5)=0 then hd(3)=z
+2405 z=z+1
+2406 if hd(3)=-1 and z<=im goto 2403:rem repeat until all checked
+2407 return
+
+2500 rem setallredraw
+2501 for z=1 to im:it(z,10)=1:next z
+2502 return
+
+2600 rem takeitem
+2601 it(ii,5)=1:it(ii,10)=1:rem set taken and redraw
+2602 if it(ii,6)>0 then l=it(ii,6):li=ii:gosub 2500:rem light
+2603 if it(ii,7)>0 then t=t+it(ii,7):xi=ii:ct=3:rem treas -- todo ct
+2604 return
+
+2700 rem generate items - 0-3 per room
+2701 ii=1:im=1:gosub 2200:rem generate first light
+2702 for i=1 to ri
+2703 for j=1 to 4
+2704 q = rnd(1):hd(3)=-1
+2705 if q<=0.4 goto 2715:rem no item if <0.4
+2706 it(ii+1,10)=1:rem set redraw
+2707 it(ii+1,1)=int(rnd(1)*(rm(i,3)-rm(i,1)-2))+rm(i,1)+1:rem gen x in room
+2708 it(ii+1,2)=int(rnd(1)*(rm(i,4)-rm(i,2)-2))+rm(i,2)+1:rem gen y in room
+2709 it(ii+1,3)=i:rem room
+2710 hd(1)=it(ii+1,1):hd(2)=it(ii+1,2):gosub 2400:rem chk if other items hit
+2711 if hd(3)<>-1 goto 2704:rem repeat if hit
+2712 ii=ii+1:im=im+1:rem inc index and max count
+2713 if q>0.8 then gosub 2300:goto 2715:rem p>0.8 gen treasure
+2714 gosub 2200:rem else gen light
+2715 next j
+2716 next i
+2717 return
