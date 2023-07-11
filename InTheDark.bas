@@ -245,25 +245,25 @@
 2060 rem eastdoor
 2061 do(di,1)=rm(i,3)
 2062 rr(1)=rm(i,2):rr(2)=rm(j,2):rr(3)=rm(i,4):rr(4)=rm(j,4):gosub 2020
-2063 do(di,2)=rr(5):print "e";do(di,1);",";do(di,2)
+2063 do(di,2)=rr(5)
 2064 di=di+1 : return
 
 2070 rem westdoor
 2061 do(di,1)=rm(i,1)
 2062 rr(1)=rm(i,2):rr(2)=rm(j,2):rr(3)=rm(i,4):rr(4)=rm(j,4):gosub 2020
-2063 do(di,2)=rr(5)::print "w";do(di,1);",";do(di,2)
+2063 do(di,2)=rr(5)
 2064 di=di+1 : return
 
 2080 rem northdoor
 2061 do(di,2)=rm(i,4)
 2062 rr(1)=rm(i,1):rr(2)=rm(j,1):rr(3)=rm(i,3):rr(4)=rm(j,3):gosub 2020
-2063 do(di,1)=rr(5):print "n";do(di,1);",";do(di,2)
+2063 do(di,1)=rr(5)
 2064 di=di+1 : return
 
 2090 rem southdoor
 2091 do(di,2)=rm(i,2)
 2092 rr(1)=rm(i,1):rr(2)=rm(j,1):rr(3)=rm(i,3):rr(4)=rm(j,3):gosub 2020
-2093 do(di,1)=rr(5):print "s";do(di,1);",";do(di,2)
+2093 do(di,1)=rr(5)
 2094 di=di+1 : return
 
 2100 rem generatedungeon
