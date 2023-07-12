@@ -15,7 +15,7 @@
 15 lw=6:lh=6:uw=10:uh=10:mw=3:mh=3:rem room sizes
 16 dim rr(5):rem random range min1,min2,max1,max2,result
 17 n$="":ni=0:a$="":ai=0:rem noun, adjective
-18 dc=1:im=1:rem dungeon level, items max
+18 dc=1:im=1:pd=0:mr=0:rem dungeon level, items max, player dir, move redraw 
 19 l=0:t=0:li=0:xi=0:rem light, treasure, light item index, treas item index
 20 z=rnd(-ti):rem init random
 
@@ -26,10 +26,8 @@
 104 print "generated";di;"doors"
 105 gosub 2700: rem generate items
 106 print "generated";ii;"items"
-107 for i = 1 to ii
-108 if it(i,4)=1 then print "light r";it(i,3):goto 110
-109 print "treas r";it(i,3)
-110 next i
+107 gosub 2800: rem generate player
+108 print "spawned player room";p(5);"at";p(1);p(2)
 111 end
 
 900 rem set screen colors -- c64 specific!
@@ -38,6 +36,11 @@
 903 poke 646,5:rem text green
 904 print chr$(147):rem cls
 905 return
+
+910 rem move cursor -- c64 specific!
+911 poke 781,hd(1):poke 782,hd(2):poke 783:0:rem set x,y,clear
+912 sys 65520:rem kernal call to move cursor
+913 return
 
 1000 rem noun set
 1001 if ni=0 then n$="match":return
@@ -353,3 +356,41 @@
 2715 next j
 2716 next i
 2717 return
+
+2799 rem player.inc related code
+2800 rem generateplayer - spawn in random room
+2801 w = int(rnd(1)*ri)+1
+2802 hd(1)=int(rnd(1)*(rm(w,3)-rm(w,1)-2))+rm(w,1)+1:rem spawn x
+2803 hd(2)=int(rnd(1)*(rm(w,4)-rm(w,2)-2))+rm(w,2)+1:rem spawn y
+2804 gosub 2400:rem check not spawn on item
+2805 if hd(3)<>-1 goto 2802:rem try again on hit
+2806 p(1)=hd(1):p(2)=hd(2):p(5)=w:rem set x,y,room for spawn
+2807 ii=1:gosub 2600:rem take first item
+2808 return
+
+2900 rem moveplayer
+2901 mr=0:hd(1)=p(1):hd(2)=p(2):rem set redraw,x,y
+2902 if pd<0 or pd>3 then return:rem handle invalid direction
+2903 if pd=0 then hd(1)=p(1)-1:goto 2907:rem left
+2904 if pd=1 then hd(1)=p(1)+1:goto 2907:rem right
+2905 if pd=2 then hd(2)=p(2)-1:goto 2907:rem up
+2906 if pd=3 then hd(2)=p(2)+1:rem down
+2907 gosub 1500:rem check for hit door
+2908 if hd(3)=-1 goto 2911: rem not hit door
+2909 do(hd(3),5)=1:mr=1:rem opened door,set redraw
+2910 rm(do(hd(3),3),5)=1:rm(do(hd(3),4),5)=1:rem set rooms discovered
+2911 gosub 1400:rem check wall hit
+2912 if hd(3)=1 then return:rem wall hit do nothing
+2913 p(1)=hd(1):p(2)=hd(2):rem actually move player
+2914 z=p(5):hd(3)=-1:rem get room number, set no change to room
+2914 if (hd(1)>rm(z,1) or hd(1)<rm(z,3)) then gosub 1600:goto 2916
+2915 if (hd(2)>rm(z,2) or hd(2)<rm(z,4)) then gosub 1600:rem check room bound
+2916 if hd(3)=-1 goto 2918:rem couldnt find room/no change
+2917 p(5)=hd(3):mr=1:rem set new room, redraw
+2918 gosub 2400:rem check for item hit
+2919 if hd(3)=-1 goto x:rem no item hit
+2920 ii=hd(3):gosub 2600:mr=1:rem take item on hit, set redraw
+2921 if l>0 then l=l-1:rem decrement light
+2922 if l=0 then mr=1:gosub 2500:rem light out - hide all
+2933 rem todo -- call movemonsters
+2934 return
