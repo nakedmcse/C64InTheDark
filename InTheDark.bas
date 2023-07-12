@@ -17,7 +17,8 @@
 17 n$="":ni=0:a$="":ai=0:rem noun, adjective
 18 dc=1:im=1:pd=0:mr=0:rem dungeon level, items max, player dir, move redraw 
 19 l=0:t=0:li=0:xi=0:rem light, treasure, light item index, treas item index
-20 z=rnd(-ti):rem init random
+20 mm=0:rem monsters max
+21 z=rnd(-ti):rem init random
 
 100 rem main loop
 101 gosub 900: rem set screen colors
@@ -28,6 +29,8 @@
 106 print "generated";ii;"items"
 107 gosub 2800: rem generate player
 108 print "spawned player room";p(5);"at";p(1);p(2)
+109 gosub 3000: rem generate monsters
+110 print "spawned";mm;"monsters"
 111 end
 
 900 rem set screen colors -- c64 specific!
@@ -392,5 +395,68 @@
 2920 ii=hd(3):gosub 2600:mr=1:rem take item on hit, set redraw
 2921 if l>0 then l=l-1:rem decrement light
 2922 if l=0 then mr=1:gosub 2500:rem light out - hide all
-2933 rem todo -- call movemonsters
+2933 gosub 3300:rem move monsters
 2934 return
+
+2999 rem monster.inc related code
+3000 rem generatemonsters - spawn monsters
+3001 mm=0
+3002 for i=1 to ri
+3003 if rnd(1) <= 0.4 goto 3009:rem do not gen monster 40%
+3004 hd(1)=int(rnd(1)*(rm(i,3)-rm(i,1)-2))+rm(i,1)+1:rem spawn x
+3005 hd(2)=int(rnd(1)*(rm(i,4)-rm(i,2)-2))+rm(i,2)+1:rem spawn y
+3006 gosub 2400:rem check not spawn on item, try again if hit
+3007 if hd(3)<>-1 or (hd(1)=p(1) and hd(2)=p(2)) goto 3004
+3008 mm=mm+1:m(mm,1)=hd(1):m(mm,2)=hd(2):m(mm,3)=hd(1):m(mm,4)=hd(2):m(mm,5)=i
+3009 next i
+3010 return
+
+3100 rem moverandom
+3101 if m(mi,5)=p(5) then return:rem not for in player room
+3102 d=int(rnd(1)*4):ds=d:rem direction,starting direction
+3103 hd(1)=m(mi,1):hd(2)=m(mi,2)
+3104 if d=0 then hd(1)=hd(1)-1:goto 3108:rem left
+3105 if d=1 then hd(1)=hd(1)+1:goto 3108:rem right
+3106 if d=2 then hd(2)=hd(2)-1:goto 3108:rem up
+3107 if d=3 then hd(2)=hd(2)+1:rem down
+3108 gosub 2400:if hd(3)<>-1 goto 3112:rem hit item try again
+3109 gosub 1400:if hd(3)=1 goto 3112:rem hit wall try again
+3110 m(mi,1)=hd(1):m(mi,2)=hd(2):rem move monster
+3111 return
+3112 d=(d+1)-int((d+1)/4)*4:rem d+1 mod 4
+3113 if d<>ds goto 3103:rem try next dir
+3114 return
+
+3200 rem movetoplayer - with light move away, else attack
+3201 d=1:if l>0 then d=-1
+3203 cx=mo(mi,1)-p(1):cy=mo(mi,2)-p(2):rem dist to player
+3204 if cx=0 and cy=0 then return:rem hit player
+3205 hd(1)=m(mi,1):hd(2)=m(mi,2)
+3206 if abs(cx)>abs(cy) and cx>0 then hd(1)=hd(1)-d:goto 3211
+3207 if abs(cx)>abs(cy) and cx<0 then hd(1)=hd(1)+d:goto 3211
+3209 if cy>0 then hd(2)=hd(2)-d:goto 3211
+3210 hd(2)=hd(2)+d
+3211 gosub 2400:if hd(3)<>-1 goto 3215:rem hit item try random
+3212 gosub 1400:if hd(3)=1 goto 3215:rem hit wall try random
+3213 m(mi,1)=hd(1):m(mi,2)=hd(2):rem move monster
+3214 return
+3215 gosub 3100:return:rem hit item/wall try random
+
+3300 rem movemonsters
+3301 for i=1 to mm
+3302 mi=i
+3303 if m(mi,5)=p(5) then gosub 3200:goto 3305:rem same room move player
+3304 gosub 3100:rem else move rand
+3305 next i
+3306 return
+
+3400 rem hitmonster
+3401 gosub 1600:z=hd(3):hd(3)=-1:rem get room
+3402 for i=1 to mm
+3403 if mo(i,5)<>z goto 3406:rem not same room
+3404 cx=abs(hd(1)-mo(i,1)):cy=abs(hd(2)-mo(i,2)):rem manhattan distance
+3405 if cx<4 and cy<4 goto 3408:rem hit monster
+3406 next i
+3407 return
+3408 if cx>=cy then hd(3)=cx:return
+3409 hd(3)=cy:return
