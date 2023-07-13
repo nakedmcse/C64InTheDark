@@ -522,7 +522,7 @@
 
 4000 rem drawmonsters
 4001 for i=1 to mm
-4002 if rm(m(i,5),6)=1 or l>0 then mi=i:gosub 3900:goto 4004:rem show
+4002 if rm(m(i,5),6)=1 and l>0 then mi=i:gosub 3900:goto 4004:rem show
 4003 mi=i:gosub 3950:rem hide
 4004 next i
 4005 return
