@@ -377,7 +377,7 @@
 2804 gosub 2400:rem check not spawn on item
 2805 if hd(3)<>-1 goto 2802:rem try again on hit
 2806 p(1)=hd(1):p(2)=hd(2):p(3)=p(1):p(4)=p(2):p(5)=w:rem set x,y,room 
-2807 ii=1:gosub 2600:rem take first item
+2807 rm(w,5)=1:ii=1:gosub 2600:rem disc room,take first item
 2808 return
 
 2900 rem moveplayer
@@ -531,7 +531,7 @@
 4102 hd(1)=p(3):hd(2)=r:gosub 1700:rem check if player can see
 4103 if rm(r,6)<>hd(3) then rm(r,7)=1:rem flag room status changed
 4103 rm(r,6)=hd(3):rem set show contents
-4104 ri=r:gosub 2500:rem draw room
+4104 ri=r:gosub 3500:rem draw room
 4105 next r
 4106 for di = 1 to dm:gosub 3600:next di:rem doors
 4107 for ii = 1 to im:rem items
