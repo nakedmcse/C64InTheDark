@@ -33,8 +33,8 @@
 110 print "spawned";mm;"monsters"
 111 print chr$(147):rem cls
 112 gosub 4200: rem draw frame
-113 gosub 4100: rem draw dungeon
-114 rem gosub 4300: rem draw player
+113 rem gosub 4100: rem draw dungeon
+114 gosub 4300: rem draw player
 115 rem gosub 4000: rem draw monsters
 116 goto 116: rem loop to hold screen
 
@@ -372,7 +372,7 @@
 2803 hd(2)=int(rnd(1)*(rm(w,4)-rm(w,2)-2))+rm(w,2)+1:rem spawn y
 2804 gosub 2400:rem check not spawn on item
 2805 if hd(3)<>-1 goto 2802:rem try again on hit
-2806 p(1)=hd(1):p(2)=hd(2):p(5)=w:rem set x,y,room for spawn
+2806 p(1)=hd(1):p(2)=hd(2):p(3)=p(1):p(4)=p(2):p(5)=w:rem set x,y,room 
 2807 ii=1:gosub 2600:rem take first item
 2808 return
 
@@ -546,7 +546,7 @@
 4206 hd(1)=sw-1:hd(2)=i:gosub 910:print chr$(166);
 4207 next i
 4208 hd(1)=0:hd(2)=sh-1:gosub 910:print left$(xw$,39);
-4209 poke 2023,166:rem poke last to stop scroll
+4209 poke 2023,peek(2022):rem poke last to stop scroll
 4210 return
 
 4300 rem drawplayer
