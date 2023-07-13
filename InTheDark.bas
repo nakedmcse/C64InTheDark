@@ -17,21 +17,26 @@
 17 n$="":ni=0:a$="":ai=0:rem noun, adjective
 18 dc=1:im=1:pd=0:mr=0:rem dungeon level, items max, player dir, move redraw 
 19 l=0:t=0:li=0:xi=0:rem light, treasure, light item index, treas item index
-20 mm=0:rem monsters max
+20 mm=0:rx=0:dm=0:rem monsters max, rooms max, doors max
 21 z=rnd(-ti):rem init random
 
 100 rem main loop
 101 gosub 900: rem set screen colors
 102 gosub 2100: rem generate dungeon
-103 print "generated";ri;"rooms"
-104 print "generated";di;"doors"
+103 print "generated";ri;"rooms":rx=ri
+104 print "generated";di;"doors":dm=di
 105 gosub 2700: rem generate items
 106 print "generated";ii;"items"
 107 gosub 2800: rem generate player
 108 print "spawned player room";p(5);"at";p(1);p(2)
 109 gosub 3000: rem generate monsters
 110 print "spawned";mm;"monsters"
-111 end
+111 print chr$(147):rem cls
+112 gosub 4200: rem draw frame
+113 gosub 4100: rem draw dungeon
+114 rem gosub 4300: rem draw player
+115 rem gosub 4000: rem draw monsters
+116 goto 116: rem loop to hold screen
 
 900 rem set screen colors -- c64 specific!
 901 poke 53280,0:rem border black
@@ -41,7 +46,7 @@
 905 return
 
 910 rem move cursor -- c64 specific!
-911 poke 781,hd(1):poke 782,hd(2):poke 783:0:rem set x,y,clear
+911 poke 781,hd(2):poke 782,hd(1):poke 783,0:rem set y,x,clear
 912 sys 65520:rem kernal call to move cursor
 913 return
 
@@ -475,7 +480,7 @@
 3510 return
 
 3600 rem drawdoor
-3601 if rm(do(di,3))=0 and rm(do(di,4))=0 then return:rem one must be disc
+3601 if rm(do(di,3),5)=0 and rm(do(di,4),5)=0 then return:rem one must be disc
 3602 dc$=chr$(118):if do(di,5)=1 then dc$=" ":rem door symbol
 3603 hd(1)=do(di,1):hd(2)=do(di,2):gosub 910:print dc$
 3604 return
@@ -516,3 +521,36 @@
 4003 mi=i:gosub 3950:rem hide
 4004 next i
 4005 return
+
+4100 rem drawdungeon
+4101 for r = 1 to rx:rem rooms
+4102 hd(1)=p(3):hd(2)=r:gosub 1700:rem check if player can see
+4103 if rm(r,6)<>hd(3) then rm(r,7)=1:rem flag room status changed
+4103 rm(r,6)=hd(3):rem set show contents
+4104 ri=r:gosub 2500:rem draw room
+4105 next r
+4106 for di = 1 to dm:gosub 3600:next di:rem doors
+4107 for ii = 1 to im:rem items
+4108 if it(ii,10)=1 or rm(it(ii,3),7)=1 then it(ii,10)=1:rem redraw on change
+4109 if it(ii,5)=1 or rm(it(ii,3),6)<>1 or l=0 then gosub 3800:goto 4111
+4110 gosub 3700:rem draw item
+4111 next ii
+4112 return
+
+4200 rem drawframe
+4201 hd(1)=0:hd(2)=0:gosub 910:rem set cursor
+4202 xw$=chr$(166):for i=1 to sw-1:xw$=xw$+chr$(166):next i
+4203 print xw$;
+4204 for i=1 to sh-2
+4205 hd(1)=0:hd(2)=i:gosub 910:print chr$(166);
+4206 hd(1)=sw-1:hd(2)=i:gosub 910:print chr$(166);
+4207 next i
+4208 hd(1)=0:hd(2)=sh-1:gosub 910:print left$(xw$,39);
+4209 poke 2023,166:rem poke last to stop scroll
+4210 return
+
+4300 rem drawplayer
+4301 hd(1)=p(3):hd(2)=p(4):gosub 910:print " ":rem erase old
+4302 hd(1)=p(1):hd(2)=p(2):gosub 910:print chr$(5)+chr$(119):rem draw
+4303 p(3)=p(1):p(4)=p(2):rem dx=x,dy=y
+4304 return
