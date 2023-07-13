@@ -508,8 +508,8 @@
 3900 rem drawmonster
 3901 if p(1)=m(mi,3) and p(2)=m(mi,4) goto 3903:rem player in old spot
 3902 hd(1)=m(mi,3):hd(2)=m(mi,4):gosub 910:print " ";
-3903 g$=chr$(155)+chr$(18)+chr$(34):rem inv light gray quote
-3904 hd(1)=m(mi,1):hd(2)=m(mi,2):gosub 910:print g$;
+3903 g$=chr$(155)+chr$(34):print chr$(18);:rem inv light gray quote
+3904 hd(1)=m(mi,1):hd(2)=m(mi,2):gosub 910:print g$;chr$(146);
 3905 m(mi,3)=m(mi,1):m(mi,4)=m(mi,2):rem dx=x,dy=y
 3906 poke 646,5:return
 
@@ -568,5 +568,5 @@
 4404 next i
 4402 gosub 910: print c$;
 4403 gosub 910
-4404 print "room";p(5);"-";rm(p(5),1);rm(p(5),2);rm(p(5),3);rm(p(5),4);
+4404 print "room";p(5);rm(p(5),1);rm(p(5),2);rm(p(5),3);rm(p(5),4);
 4405 return
