@@ -33,7 +33,7 @@
 110 print "spawned";mm;"monsters"
 111 print chr$(147):rem cls
 112 gosub 4200: rem draw frame
-113 rem gosub 4100: rem draw dungeon
+113 gosub 4100: rem draw dungeon
 114 gosub 4300: rem draw player
 115 gosub 4000: rem draw monsters
 116 goto 116: rem loop to hold screen
@@ -46,9 +46,13 @@
 905 return
 
 910 rem move cursor -- c64 specific!
-911 poke 781,hd(2):poke 782,hd(1):poke 783,0:rem set y,x,clear
-912 sys 65520:rem kernal call to move cursor
-913 return
+911 if hd(1)<0 then hd(1)=0
+912 if hd(1)>sw-1 then hd(1)=sw-1
+913 if hd(2)<0 then hd(2)=0
+914 if hd(2)>sh-1 then hd(2)=sh-1
+915 poke 781,hd(2):poke 782,hd(1):poke 783,0:rem set y,x,clear
+916 sys 65520:rem kernal call to move cursor
+917 return
 
 1000 rem noun set
 1001 if ni=0 then n$="match":return
