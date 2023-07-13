@@ -475,18 +475,18 @@
 3501 if rm(ri,5)<>1 then return: rem no draw not discovered room
 3502 hd(1)=rm(ri,1):hd(2)=rm(ri,2):gosub 910:rem set cursor
 3503 xw$=chr$(166):for i=hd(1)+1 to hd(2):xw$=xw$+chr$(166):next i
-3504 print xw$
+3504 print xw$;
 3505 for i=rm(ri,2)+1 to rm(ri,4)-1
-3506 hd(1)=rm(ri,1):hd(2)=i:gosub 910:print chr$(166)
-3507 hd(1)=rm(ri,3):hd(2)=i:gosub 910:print chr$(166)
+3506 hd(1)=rm(ri,1):hd(2)=i:gosub 910:print chr$(166);
+3507 hd(1)=rm(ri,3):hd(2)=i:gosub 910:print chr$(166);
 3508 next i
-3509 hd(1)=rm(ri,3):hd(2)=i:gosub 910:print xw$
+3509 hd(1)=rm(ri,1):hd(2)=rm(ri,4):gosub 910:print xw$;
 3510 poke 646,5:return
 
 3600 rem drawdoor
 3601 if rm(do(di,3),5)=0 and rm(do(di,4),5)=0 then return:rem one must be disc
 3602 dc$=chr$(118):if do(di,5)=1 then dc$=" ":rem door symbol
-3603 hd(1)=do(di,1):hd(2)=do(di,2):gosub 910:print dc$
+3603 hd(1)=do(di,1):hd(2)=do(di,2):gosub 910:print dc$;
 3604 poke 646,5:return
 
 3700 rem drawitem
@@ -495,27 +495,27 @@
 3703 if it(ii,4)=1 then ic$=chr$(5)+chr$(115):goto 3706:rem light-white hrt
 3704 if it(ii,4)=2 then ic$=chr$(158)+chr$(122):goto 3706:rem trea-yel coin
 3705 ic$="?":rem unknown type
-3706 hd(1)=it(ii,1):hd(2)=it(ii,2):gosub 910:print ic$
+3706 hd(1)=it(ii,1):hd(2)=it(ii,2):gosub 910:print ic$;
 3708 poke 646,5:return
 
 3800 rem hideitem
 3801 if it(ii,10)=0 then return:rem no redraw set
 3802 it(ii,10)=0
-3806 hd(1)=it(ii,1):hd(2)=it(ii,2):gosub 910:print " "
+3806 hd(1)=it(ii,1):hd(2)=it(ii,2):gosub 910:print " ";
 3808 return
 
 3900 rem drawmonster
 3901 if p(1)=m(mi,3) and p(2)=m(mi,4) goto 3903:rem player in old spot
-3902 hd(1)=m(mi,3):hd(2)=m(mi,4):gosub 910:print " "
+3902 hd(1)=m(mi,3):hd(2)=m(mi,4):gosub 910:print " ";
 3903 g$=chr$(155)+chr$(18)+chr$(34):rem inv light gray quote
-3904 hd(1)=m(mi,1):hd(2)=m(mi,2):gosub 910:print g$
+3904 hd(1)=m(mi,1):hd(2)=m(mi,2):gosub 910:print g$;
 3905 m(mi,3)=m(mi,1):m(mi,4)=m(mi,2):rem dx=x,dy=y
 3906 poke 646,5:return
 
 3950 rem hidemonster
 3951 if p(1)=m(mi,3) and p(2)=m(mi,4) goto 3953:rem player in old spot
-3952 hd(1)=m(mi,3):hd(2)=m(mi,4):gosub 910:print " "
-3953 hd(1)=m(mi,1):hd(2)=m(mi,2):gosub 910:print " "
+3952 hd(1)=m(mi,3):hd(2)=m(mi,4):gosub 910:print " ";
+3953 hd(1)=m(mi,1):hd(2)=m(mi,2):gosub 910:print " ";
 3954 m(mi,3)=m(mi,1):m(mi,4)=m(mi,2):rem dx=x,dy=y
 3955 return
 
@@ -554,7 +554,7 @@
 4210 return
 
 4300 rem drawplayer
-4301 hd(1)=p(3):hd(2)=p(4):gosub 910:print " ":rem erase old
-4302 hd(1)=p(1):hd(2)=p(2):gosub 910:print chr$(5)+chr$(119):rem draw
+4301 hd(1)=p(3):hd(2)=p(4):gosub 910:print " ";:rem erase old
+4302 hd(1)=p(1):hd(2)=p(2):gosub 910:print chr$(5)+chr$(119);:rem draw
 4303 p(3)=p(1):p(4)=p(2):rem dx=x,dy=y
 4304 return
