@@ -474,7 +474,7 @@
 3500 rem drawroom
 3501 if rm(ri,5)<>1 then return: rem no draw not discovered room
 3502 hd(1)=rm(ri,1):hd(2)=rm(ri,2):gosub 910:rem set cursor
-3503 xw$=chr$(166):for i=hd(1)+1 to hd(2):xw$=xw$+chr$(166):next i
+3503 xw$=chr$(166):for i=hd(1)+1 to hd(3):xw$=xw$+chr$(166):next i
 3504 print xw$;
 3505 for i=rm(ri,2)+1 to rm(ri,4)-1
 3506 hd(1)=rm(ri,1):hd(2)=i:gosub 910:print chr$(166);
