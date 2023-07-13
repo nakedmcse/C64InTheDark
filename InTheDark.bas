@@ -36,7 +36,8 @@
 113 gosub 4100: rem draw dungeon
 114 gosub 4300: rem draw player
 115 gosub 4000: rem draw monsters
-116 goto 116: rem loop to hold screen
+116 gosub 4400: rem show status
+117 goto 116: rem loop to hold screen
 
 900 rem set screen colors -- c64 specific!
 901 poke 53280,0:rem border black
@@ -474,7 +475,7 @@
 3500 rem drawroom
 3501 if rm(ri,5)<>1 then return: rem no draw not discovered room
 3502 hd(1)=rm(ri,1):hd(2)=rm(ri,2):gosub 910:rem set cursor
-3503 xw$=chr$(166):for i=hd(1)+1 to hd(3):xw$=xw$+chr$(166):next i
+3503 xw$=chr$(166):for i=hd(1)+1 to rm(ri,3):xw$=xw$+chr$(166):next i
 3504 print xw$;
 3505 for i=rm(ri,2)+1 to rm(ri,4)-1
 3506 hd(1)=rm(ri,1):hd(2)=i:gosub 910:print chr$(166);
@@ -558,3 +559,14 @@
 4302 hd(1)=p(1):hd(2)=p(2):gosub 910:print chr$(5)+chr$(119);:rem draw
 4303 p(3)=p(1):p(4)=p(2):rem dx=x,dy=y
 4304 return
+
+4400 rem drawstatus -- showing room for debug
+4401 hd(1)=1:hd(2)=sh-1
+4402 c$=chr$(166)
+4402 for i=1 to sw-4
+4403 c$=c$+chr$(166)
+4404 next i
+4402 gosub 910: print c$;
+4403 gosub 910
+4404 print "room";p(5);"-";rm(p(5),1);rm(p(5),2);rm(p(5),3);rm(p(5),4);
+4405 return
