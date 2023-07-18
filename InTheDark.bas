@@ -37,7 +37,8 @@
 114 gosub 4300: rem draw player
 115 gosub 4000: rem draw monsters
 116 gosub 4400: rem show status
-117 goto 116: rem loop to hold screen
+117 get a$:if a$="" goto 117: rem wait for key
+118 goto 13
 
 900 rem set screen colors -- c64 specific!
 901 poke 53280,0:rem border black
