@@ -3,22 +3,23 @@
 3 dim p(5):rem player x,y,dx,dy,room
 4 dim m(10,5):rem monster x,y,dx,dy,room
 5 dim rm(10,7):rem room x1,y1,x2,y2,disc,show,changed
-6 for i=1 to 10:rm(i,1)=-1:next i:rem init rooms (-1 undefined)
-7 dim ol(9):rem overlap check sx1,sy1,sx2,sy2,dx1,dy1,dx2,dy2,overlaped?
-8 dim hd(3):rem hit detect x,y,hit? 
-9 dim do(40,5):rem door x,y,r1 index,r2 index,opened
-10 for i=1 to 40:do(i,1)=-1:next i:rem init doors (-1 undefined)
-11 dim it(50,10):rem item x,y,room,type,taken,light,treas,d1idx,d2idx,redraw
-12 for i=1 to 50:it(i,1)=-1:next i:rem init items (-1 undefined)
+6 dim ol(9):rem overlap check sx1,sy1,sx2,sy2,dx1,dy1,dx2,dy2,overlaped?
+7 dim hd(3):rem hit detect x,y,hit? 
+8 dim do(40,5):rem door x,y,r1 index,r2 index,opened
+9 dim it(50,10):rem item x,y,room,type,taken,light,treas,d1idx,d2idx,redraw
+10 dim rr(5):rem random range min1,min2,max1,max2,result
+
 13 ri=0:di=0:ii=0:mi=0:rem room index, door index, item index, monster idx
 14 sw=40:sh=25:rem c64 screen wxh
 15 lw=6:lh=6:uw=10:uh=10:mw=3:mh=3:rem room sizes
-16 dim rr(5):rem random range min1,min2,max1,max2,result
-17 n$="":ni=0:a$="":ai=0:rem noun, adjective
-18 dc=1:im=1:pd=0:mr=0:rem dungeon level, items max, player dir, move redraw 
-19 l=0:t=0:li=0:xi=0:rem light, treasure, light item index, treas item index
-20 mm=0:rx=0:dm=0:rem monsters max, rooms max, doors max
-21 z=rnd(-ti):rem init random
+16 n$="":ni=0:a$="":ai=0:rem noun, adjective
+17 dc=1:im=1:pd=0:mr=0:rem dungeon level, items max, player dir, move redraw 
+18 l=0:t=0:li=0:xi=0:rem light, treasure, light item index, treas item index
+19 mm=0:rx=0:dm=0:rem monsters max, rooms max, doors max
+20 for i=1 to 10:rm(i,1)=-1:next i:rem init rooms (-1 undefined)
+21 for i=1 to 40:do(i,1)=-1:next i:rem init doors (-1 undefined)
+22 for i=1 to 50:it(i,1)=-1:next i:rem init items (-1 undefined)
+23 z=rnd(-ti):rem init random
 
 100 rem main loop
 101 gosub 900: rem set screen colors
