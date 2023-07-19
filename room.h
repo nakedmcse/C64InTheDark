@@ -96,7 +96,7 @@ bool CanSee(int RI,int RT) {
 bool DoorNotFound(int Room1, int Room2) {
     bool found = false;
     int i = 0;
-    while (i<=DoorI && !found) {
+    while (i<=DoorI && found==false) {
         if((Doors[i].Room1I==Room1 && Doors[i].Room2I==Room2)||(Doors[i].Room1I==Room2 && Doors[i].Room2I==Room1)) {
             found=true;
         }
@@ -104,7 +104,8 @@ bool DoorNotFound(int Room1, int Room2) {
             i++;
         }
     }
-    return !found;
+    if(found) return false;
+    return true;
 };
 
 int RandomInRange(int min1, int min2, int max1, int max2) {
@@ -131,6 +132,7 @@ void GenerateDoors() {
             Doors[DoorI].Room2I=j;
             Doors[DoorI].Opened=false;
             if(DoorNotFound(i,j)) {
+                printf("Comparing room %d and room %d\n",i,j);
                 if(cr.x2==tr.x1 && tr.y1<cr.y2 && tr.y2>cr.y1) {
                     Doors[DoorI].x=cr.x2;
                     Doors[DoorI].y=RandomInRange(cr.y1,tr.y1,cr.y2,tr.y2);
@@ -203,7 +205,7 @@ bool NextRoom() {
             if(Rooms[RoomI+1].y2-h<1) h=Rooms[RoomI+1].y2-1;
             if(h<LHeight) GenNext=false;
             Rooms[RoomI+1].y1=Rooms[RoomI+1].y2-h;
-            x=(rand() * (cr.x2-cr.x1-1))+cr.x1+1;
+            x=(rand() % (cr.x2-cr.x1-1))+cr.x1+1;
             if(x-(w/2)<1) w=x;
             if(x-(w/2)+w>=SWidth) w=SWidth-x-1;
             if(w<MWidth) GenNext=false;
@@ -215,7 +217,7 @@ bool NextRoom() {
             if(Rooms[RoomI+1].y1+h>SHeight) h=SHeight-Rooms[RoomI+1].y1;
             if(h<LHeight) GenNext=false;
             Rooms[RoomI+1].y2=Rooms[RoomI+1].y1+h;
-            x=(rand() * (cr.x2-cr.x1-1))+cr.x1+1;
+            x=(rand() % (cr.x2-cr.x1-1))+cr.x1+1;
             if(x-(w/2)<1) w=x;
             if(x-(w/2)+w>=SWidth) w=SWidth-x-1;
             if(w<MWidth) GenNext=false;
@@ -260,9 +262,10 @@ void GenerateDungeon() {
     int attempt=1;
     RoomI=0;
     while(RoomI<5) {
-        printf("Attempt %d...\n",attempt);
+        printf("Attempt %d,%d...\n",attempt,RoomI);
         FirstRoom();
         while(RoomI<10 && NextRoom()) {};
+        printf("Rooms %d\n",RoomI);
         attempt++;
     }
     printf("Generating Doors\n");

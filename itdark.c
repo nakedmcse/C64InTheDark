@@ -9,8 +9,8 @@ int main(void) {
     SET_COLORS(C64_COLOR_BLACK,C64_COLOR_BLACK,C64_COLOR_GREEN);
     printf("Generating Dungeon...\n");
     GenerateDungeon();
-    printf("Generated %d rooms",RoomI);
-    printf("Generated %d doors",DoorI);
+    printf("Generated %d rooms\n",RoomI);
+    printf("Generated %d doors\n",DoorI);
     while(true) {};
     return EXIT_SUCCESS;
 }
