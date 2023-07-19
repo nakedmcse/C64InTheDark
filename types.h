@@ -1,4 +1,6 @@
 /* Type definitions for objects */
+#include <stdbool.h>
+
 struct Room {
     int x1;
     int y1;
@@ -7,7 +9,7 @@ struct Room {
     bool Discovered;
     bool ShowContents;
     bool Changed;
-}
+};
 
 struct Door {
     int x;
@@ -15,7 +17,7 @@ struct Door {
     int Room1I;
     int Room2I;
     bool Opened;
-}
+};
 
 struct Item {
     int x;
@@ -28,7 +30,7 @@ struct Item {
     int D2;
     bool Taken;
     bool Redraw;
-}
+};
 
 struct Player {
     int x;
@@ -36,7 +38,7 @@ struct Player {
     int dx;
     int dy;
     int Room;
-}
+};
 
 struct Monster {
     int x;
@@ -44,7 +46,7 @@ struct Monster {
     int dx;
     int dy;
     int Room;
-}
+};
 
 /* Global Variables */
 struct Room Rooms[10];
