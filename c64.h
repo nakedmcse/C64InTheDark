@@ -27,12 +27,6 @@
 __asm__("lda #$93"); \
 __asm__("jsr $ffd2");
 
-#define MOVE_CURSOR(x,y) \
-    POKE(0x30D,y); \
-    POKE(0x30E,x); \
-    POKE(0x30F,0); \
-    __asm__("jsr $fff0");
-
 #define SET_COLORS(border,back,text) \
     POKE(0xD020,border); \
     POKE(0xD021,back); \
