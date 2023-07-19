@@ -1,5 +1,5 @@
 /* C64 Specific Code */
-#include<pokepeek.h>
+#include<peekpoke.h>
 
 /* Color Macros */
 #define C64_COLOR_BLACK  0x00U
