@@ -96,7 +96,7 @@ bool CanSee(int RI,int RT) {
 bool DoorNotFound(int Room1, int Room2) {
     bool found = false;
     int i = 0;
-    while (i<=DoorI && found==false) {
+    while (i<DoorI && found==false) {
         if((Doors[i].Room1I==Room1 && Doors[i].Room2I==Room2)||(Doors[i].Room1I==Room2 && Doors[i].Room2I==Room1)) {
             found=true;
         }
@@ -132,7 +132,6 @@ void GenerateDoors() {
             Doors[DoorI].Room2I=j;
             Doors[DoorI].Opened=false;
             if(DoorNotFound(i,j)) {
-                printf("Comparing room %d and room %d\n",i,j);
                 if(cr.x2==tr.x1 && tr.y1<cr.y2 && tr.y2>cr.y1) {
                     Doors[DoorI].x=cr.x2;
                     Doors[DoorI].y=RandomInRange(cr.y1,tr.y1,cr.y2,tr.y2);

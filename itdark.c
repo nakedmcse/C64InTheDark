@@ -7,6 +7,7 @@
 int main(void) {
     CLRSCR;
     SET_COLORS(C64_COLOR_BLACK,C64_COLOR_BLACK,C64_COLOR_GREEN);
+    _randomize();
     printf("Generating Dungeon...\n");
     GenerateDungeon();
     printf("Generated %d rooms\n",RoomI);
