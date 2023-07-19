@@ -1,8 +1,8 @@
 /* In The Dark C64 */
-#include "all.h"
 #include "c64.h"
-#include "types.h"
 #include "room.h"
+#include<stdio.h>
+#include<conio.h>
 
 int main(void) {
     CLRSCR;

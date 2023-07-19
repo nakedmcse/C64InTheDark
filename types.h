@@ -1,7 +1,7 @@
 /* Type definitions for objects */
 #include <stdbool.h>
 
-struct Room {
+typedef struct Room {
     int x1;
     int y1;
     int x2;
@@ -9,17 +9,17 @@ struct Room {
     bool Discovered;
     bool ShowContents;
     bool Changed;
-};
+} Room;
 
-struct Door {
+typedef struct Door {
     int x;
-    iny y;
+    int y;
     int Room1I;
     int Room2I;
     bool Opened;
-};
+} Door;
 
-struct Item {
+typedef struct Item {
     int x;
     int y;
     int Room;
@@ -30,38 +30,38 @@ struct Item {
     int D2;
     bool Taken;
     bool Redraw;
-};
+} Item;
 
-struct Player {
+typedef struct Player {
     int x;
     int y;
     int dx;
     int dy;
     int Room;
-};
+} Player;
 
-struct Monster {
+typedef struct Monster {
     int x;
     int y;
     int dx;
     int dy;
     int Room;
-};
+} Monster;
 
 /* Global Variables */
-struct Room Rooms[10];
+Room Rooms[10];
 int RoomI;
 
-struct Door Doors[40];
+Door Doors[40];
 int DoorI;
 
-struct Item Items[50];
+Item Items[50];
 int ItemI,CLight,CTreasure;
 
-struct Monster Monsters[10];
+Monster Monsters[10];
 int MonsterI;
 
-struct Player CPlayer;
+Player CPlayer;
 int D,MDist,I,L,T,DT,CT;
 
 int DC;
