@@ -1,5 +1,6 @@
 #include "types.h"
 #include "all.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -256,10 +257,14 @@ bool NextRoom() {
 };
 
 void GenerateDungeon() {
+    int attempt=1;
     RoomI=0;
     while(RoomI<5) {
+        printf("Attempt %d...\n",attempt);
         FirstRoom();
         while(RoomI<10 && NextRoom()) {};
+        attempt++;
     }
+    printf("Generating Doors\n");
     GenerateDoors();
 }

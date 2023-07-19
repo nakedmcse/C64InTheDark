@@ -11,5 +11,6 @@ int main(void) {
     GenerateDungeon();
     printf("Generated %d rooms",RoomI);
     printf("Generated %d doors",DoorI);
+    while(true) {};
     return EXIT_SUCCESS;
 }
