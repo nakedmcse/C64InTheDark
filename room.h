@@ -258,15 +258,10 @@ bool NextRoom() {
 };
 
 void GenerateDungeon() {
-    int attempt=1;
     RoomI=0;
     while(RoomI<5) {
-        printf("Attempt %d,%d...\n",attempt,RoomI);
         FirstRoom();
         while(RoomI<10 && NextRoom()) {};
-        printf("Rooms %d\n",RoomI);
-        attempt++;
     }
-    printf("Generating Doors\n");
     GenerateDoors();
 }
