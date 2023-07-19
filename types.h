@@ -1,26 +1,50 @@
 /* Type definitions for objects */
 struct Room {
-    int x1, y1, x2, y2;
-    bool Discovered,ShowContents,Changed;
-};
+    int x1;
+    int y1;
+    int x2;
+    int y2;
+    bool Discovered;
+    bool ShowContents;
+    bool Changed;
+}
 
 struct Door {
-    int x,y,Room1I,Room2I;
+    int x;
+    iny y;
+    int Room1I;
+    int Room2I;
     bool Opened;
-};
+}
 
 struct Item {
-    int x,y,Room,IType,L,T,D1,D2;
-    bool Taken,Redraw;
-};
+    int x;
+    int y;
+    int Room;
+    int IType;
+    int L;
+    int T;
+    int D1;
+    int D2;
+    bool Taken;
+    bool Redraw;
+}
 
 struct Player {
-    int x,y,dx,dy,Room;
-};
+    int x;
+    int y;
+    int dx;
+    int dy;
+    int Room;
+}
 
 struct Monster {
-    int x,y,dx,dy,Room;
-};
+    int x;
+    int y;
+    int dx;
+    int dy;
+    int Room;
+}
 
 /* Global Variables */
 struct Room Rooms[10];
