@@ -4,6 +4,7 @@
 #include "types.h"
 #include "room.h"
 #include "items.h"
+#include "player.h"
 #include<stdio.h>
 #include<conio.h>
 
@@ -17,6 +18,8 @@ int main(void) {
     printf("Generated %d doors\n",DoorI);
     GenerateItems();
     printf("Generated %d items\n",ItemI);
+    GeneratePlayer();
+    printf("Spawned player in room %d at %d,%d",CPlayer.Room,CPlayer.dx,CPlayer.dy);
     while(true) {};
     return EXIT_SUCCESS;
 }
