@@ -4,6 +4,7 @@
 #include "types.h"
 #include "room.h"
 #include "items.h"
+#include "monster.h"
 #include "player.h"
 #include<stdio.h>
 #include<conio.h>
@@ -19,7 +20,9 @@ int main(void) {
     GenerateItems();
     printf("Generated %d items\n",ItemI);
     GeneratePlayer();
-    printf("Spawned player in room %d at %d,%d",CPlayer.Room,CPlayer.dx,CPlayer.dy);
+    printf("Spawned player in room %d at %d,%d\n",CPlayer.Room,CPlayer.dx,CPlayer.dy);
+    GenerateMonsters();
+    printf("Spawned %d monsters\n",MonsterI);
     while(true) {};
     return EXIT_SUCCESS;
 }

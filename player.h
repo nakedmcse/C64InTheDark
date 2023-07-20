@@ -83,7 +83,7 @@ bool MovePlayer() {
                     redraw=true;
                 }
             }
-            //MoveMonsters goes here
+            MoveMonsters();
         }
     }
     return redraw;
