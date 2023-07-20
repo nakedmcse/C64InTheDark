@@ -14,9 +14,9 @@ void GenerateMonsters() {
 
     MDist=-1;
     MonsterI=0;
-    valid=false;
 
     for(i=0; i<=RoomI; i++) {
+        valid=false;
         p=rand() % 100;
         if(p>60) {
             while(valid==false) {
