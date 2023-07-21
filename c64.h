@@ -32,6 +32,15 @@ __asm__("jsr $ffd2");
     POKE(0xD021,back); \
     POKE(0x286,text);
 
+#define SET_INK(text) \
+    POKE(0x286,text);
+
+#define GRAPHICS_ON \
+    POKE(0xD018,21);
+
+#define GRAPHICS_OFF \
+    POKE(0xD018,23)
+
 #define WRITE_CHAR(x,y,ch) \
     POKE(BASE_SCREEN_ADDRESS+(40*(y))+x, ch);
 

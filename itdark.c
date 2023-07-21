@@ -6,6 +6,7 @@
 #include "items.h"
 #include "monster.h"
 #include "player.h"
+#include "graphics.h"
 #include<stdio.h>
 #include<conio.h>
 
@@ -23,6 +24,17 @@ int main(void) {
     printf("Spawned player in room %d at %d,%d\n",CPlayer.Room,CPlayer.dx,CPlayer.dy);
     GenerateMonsters();
     printf("Spawned %d monsters\n",MonsterI);
+    
+    GRAPHICS_ON;
+    DrawFrame();
+    DrawDungeon();
+    DrawPlayer();
+    DrawMonsters();
+    //DrawStatus();
+    DrawDebug();
+    DrawScore();
+
     while(true) {};
+    GRAPHICS_OFF;
     return EXIT_SUCCESS;
 }
