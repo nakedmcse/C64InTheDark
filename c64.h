@@ -1,6 +1,39 @@
 /* C64 Specific Code */
 #include<peekpoke.h>
 
+/* Joystick Macros */
+#define C64_JOYSTICK_ADDRESS_1 56321U  // Control Port 1
+#define C64_JOYSTICK_ADDRESS_2 56320U  // Control Port 2
+#define C64_JOYSTICK_NONE     0x7F  //     0111 1111
+#define C64_JOYSTICK_UP       0x01  // 254 1111 1110
+#define C64_JOYSTICK_DOWN     0x02  // 253 1111 1101
+#define C64_JOYSTICK_LEFT     0x04  // 251 1111 1011
+#define C64_JOYSTICK_RIGHT    0x08  // 247 1111 0111
+#define C64_JOYSTICK_BUTTON   0x10  // 239 1110 1111
+
+/* Keyboard Macros */
+#define GET_PKEY_VIEW PEEK(203)
+#define PKEY_A           0x30   // 'A'
+#define PKEY_D           0x2F   // 'D'
+#define PKEY_S           0x28   // 'S'
+#define PKEY_W           0x38   // 'W'
+#define PKEY_Q           0x40   // 'Q'
+
+/* Audio Macros */
+#define AUDIO_C64_BASE_ADDR  0xD418
+#define AUDIO_TURN_ON \
+    POKE(56587U,16);
+#define AUDIO_TURN_OFF \
+    POKE(56587U,0);
+#define AUDIO_INIT \
+    POKE(AUDIO_C64_BASE_ADDR+24, 15);   \    // maximum volume	
+	POKE(AUDIO_C64_BASE_ADDR+ 5,  0x0A0A); \ // ATTACK
+	POKE(AUDIO_C64_BASE_ADDR+ 6,  0x0A0A);   // ATTACK
+#define AUDIO_SET_OCTAVE(octave) \
+    POKE(56586U,octave);
+#define AUDIO_SET_FREQUENCY(freq) \
+    POKE(56584U,freq);
+
 /* Color Macros */
 #define C64_COLOR_BLACK  0x00U
 #define C64_COLOR_WHITE  0x01U
