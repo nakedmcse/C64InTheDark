@@ -33,6 +33,14 @@ int main(void) {
         printf("Spawned player in room %d at %d,%d\n",CPlayer.Room,CPlayer.dx,CPlayer.dy);
         GenerateMonsters();
         printf("Spawned %d monsters\n",MonsterI);
+
+        if(DC==0) {
+            //Instructions
+            printf("\nw,s,a,d or joystick for movement\n");
+            printf("q or fire to quit\n");
+            printf("move to start!\n");
+            NextMove();
+        }
     
         GRAPHICS_ON;
         DrawFrame();

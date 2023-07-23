@@ -10,8 +10,8 @@
 #define C64_JOYSTICK_LEFT     0x04  // 251 1111 1011
 #define C64_JOYSTICK_RIGHT    0x08  // 247 1111 0111
 #define C64_JOYSTICK_BUTTON   0x10  // 239 1110 1111
-#define GET_JOY1 PEEK(C64_JOYSTICK_ADDRESS_1)
-#define GET_JOY2 PEEK(C64_JOYSTICK_ADDRESS_2)
+#define GET_JOY1 PEEK(C64_JOYSTICK_ADDRESS_1);
+#define GET_JOY2 PEEK(C64_JOYSTICK_ADDRESS_2);
 
 /* Keyboard Macros */
 #define GET_PKEY_VIEW PEEK(203)
@@ -29,10 +29,6 @@
     POKE(56587U,16);
 #define AUDIO_TURN_OFF \
     POKE(56587U,0);
-#define AUDIO_INIT \
-    POKE(AUDIO_C64_BASE_ADDR+24, 15);   \    // maximum volume	
-	POKE(AUDIO_C64_BASE_ADDR+ 5,  0x0A0A); \ // ATTACK
-	POKE(AUDIO_C64_BASE_ADDR+ 6,  0x0A0A);   // ATTACK
 #define AUDIO_SET_OCTAVE(octave) \
     POKE(56586U,octave);
 #define AUDIO_SET_FREQUENCY(freq) \
@@ -76,7 +72,7 @@ __asm__("jsr $ffd2");
     POKE(0xD018,21);
 
 #define GRAPHICS_OFF \
-    POKE(0xD018,23)
+    POKE(0xD018,23);
 
 #define WRITE_CHAR(x,y,ch) \
     POKE(BASE_SCREEN_ADDRESS+(40*(y))+x, ch);
