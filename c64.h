@@ -10,14 +10,18 @@
 #define C64_JOYSTICK_LEFT     0x04  // 251 1111 1011
 #define C64_JOYSTICK_RIGHT    0x08  // 247 1111 0111
 #define C64_JOYSTICK_BUTTON   0x10  // 239 1110 1111
+#define GET_JOY1 PEEK(C64_JOYSTICK_ADDRESS_1)
+#define GET_JOY2 PEEK(C64_JOYSTICK_ADDRESS_2)
 
 /* Keyboard Macros */
 #define GET_PKEY_VIEW PEEK(203)
-#define PKEY_A           0x30   // 'A'
-#define PKEY_D           0x2F   // 'D'
-#define PKEY_S           0x28   // 'S'
-#define PKEY_W           0x38   // 'W'
-#define PKEY_Q           0x40   // 'Q'
+#define PKEY_A           0x0A   // 'A'
+#define PKEY_D           0x12   // 'D'
+#define PKEY_S           0x0D   // 'S'
+#define PKEY_W           0x09   // 'W'
+#define PKEY_Q           0x3E   // 'Q'
+#define PKEY_SPC         0x3C   // 'Spacebar'
+#define PKEY_NOKEY       0x40   // No key pressed
 
 /* Audio Macros */
 #define AUDIO_C64_BASE_ADDR  0xD418
