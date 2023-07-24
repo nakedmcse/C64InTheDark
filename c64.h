@@ -22,6 +22,9 @@
 #define PKEY_Q           0x3E   // 'Q'
 #define PKEY_SPC         0x3C   // 'Spacebar'
 #define PKEY_NOKEY       0x40   // No key pressed
+#define CLRKEY \
+__asm__("lda #$00"); \
+__asm__("sta $c6");
 
 /* Audio Macros */
 #define AUDIO_C64_BASE_ADDR  0xD418

@@ -28,6 +28,9 @@
 #define PKEY_Q           0x3E   // 'Q'
 #define PKEY_SPC         0x3C   // 'Spacebar'
 #define PKEY_NOKEY       0x40   // No key pressed
+#define CLRKEY \
+__asm__("lda #$00"); \
+__asm__("sta $c6");
 
 /* Screen Macros */
 #define BASE_SCREEN_ADDRESS 0x0400
@@ -92,6 +95,7 @@ int main() {
         }
 
         printf("\n");
+        CLRKEY;
     }
 
     return 0;

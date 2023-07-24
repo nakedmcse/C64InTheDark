@@ -56,6 +56,8 @@ bool NextMove() {
                 default: break;
             }
         }
+        
+        CLRKEY; //Clear keyboard buffer
     }
 
     return(D!=999);
