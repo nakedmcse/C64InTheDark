@@ -58,8 +58,10 @@ bool MovePlayer() {
             Doors[FoundDoorI].Opened=true;
             redraw=true;
         }
+        else {
+            valid=(HitWall(x,y)==false);
+        };
 
-        valid=(HitWall(x,y)==false);
         if(valid==true) {
             CPlayer.x=x;
             CPlayer.y=y;
