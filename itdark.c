@@ -47,23 +47,19 @@ int main(void) {
         DrawDungeon();
         DrawPlayer();
         DrawMonsters();
-        //DrawStatus();
-        DrawDebug();
+        DrawStatus();
+        //DrawDebug();
         DrawScore();
 
         while(MDist!=0 && T<DT && NextMove()) {
             if(MovePlayer()==true) DrawDungeon();
-            //gotoxy(0,SHeight-1);printf("after drawdungeon");
             DrawPlayer();
-            //gotoxy(0,SHeight-1);printf("after drawplayer");
             DrawMonsters();
-            //gotoxy(0,SHeight-1);printf("after drawmonsters");
-            //MDist=HitMonster(CPlayer.x,CPlayer.y);
-            gotoxy(0,SHeight-1);printf("after hitmonster");
+            MDist=HitMonster(CPlayer.x,CPlayer.y);
             DrawStatus();
             //DrawDebug();
             DrawScore();
-            gotoxy(0,SHeight-1);printf("after drawscore");
+            //gotoxy(0,SHeight-1);printf("after drawscore");
         }
 
         if(T<DT) {

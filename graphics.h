@@ -48,9 +48,9 @@ void DrawItem(int i) {
         Items[i].Redraw=false;
         gotoxy(Items[i].x,Items[i].y);
         if(Items[i].IType==1) {
-            printf("%c",ChHash);
-        } else if(Items[i].IType==2) {
             printf("%c",ChDollar);
+        } else if(Items[i].IType==2) {
+            printf("%c",ChHash);
         }
         else {
             printf("%d",Items[i].IType);
@@ -113,7 +113,7 @@ void DrawDungeon() {
             HideItem(i);
         }
         else {
-            SET_INK(C64_COLOR_ORANGE);
+            SET_INK(C64_COLOR_YELLOW);
             DrawItem(i);
             SET_INK(C64_COLOR_GREEN);
         }
@@ -181,7 +181,7 @@ void DrawStatus() {
         printf("grue talons tapping the tiles nearby.");
     }
     else if(CT>0) {
-        printf("found %s %s.",Adjective[Items[CTreasure].D2],Noun[Items[CTreasure].D1]);
+        printf("found %s.",Noun[Items[CTreasure].D1]);
         CT--;
     }
     else {
@@ -192,7 +192,7 @@ void DrawStatus() {
             printf("%s grows dim. dark soon.",Noun[Items[CLight].D1]);
         }
         else {
-            printf("%s %s lights your way",Adjective[Items[CLight].D2],Noun[Items[CLight].D1]);
+            printf("%s lights your way",Noun[Items[CLight].D1]);
         }
     }
 }

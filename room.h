@@ -28,6 +28,12 @@ bool Overlap(Room* SR,Room* DR) {
     return false;
 };
 
+/* Check Room verticies lay inside screen */
+bool InScreen(Room* SR) {
+    return (SR->x1 > 0 && SR->x1 < SWidth-1) && (SR->x2 > 0 && SR->x2 < SWidth-1)
+        && (SR->y1 >0 && SR->y1 < SHeight-1) && (SR->y2 > 0 && SR->y2 < SHeight-1);
+}
+
 /* Check x,y to see if it hits a wall */
 bool HitWall(int x, int y) {
     bool found = false;
@@ -242,6 +248,10 @@ bool NextRoom() {
                 h=Rooms[RoomI+1].y2-Rooms[RoomI+1].y1;
                 if(w<MWidth || h<MHeight) GenNext=false;
             }
+        }
+
+        if(!InScreen(&Rooms[RoomI+1])) {
+            GenNext=false;
         }
 
         if(GenNext) {

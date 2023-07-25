@@ -137,6 +137,9 @@ int HitMonster(int x1, int y1) {
                 i++;
             }
         }
+        else {
+            i++;
+        }
     }
 
     if(found==true) return Max(cx,cy);
