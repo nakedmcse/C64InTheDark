@@ -25,14 +25,14 @@ int main(void) {
     while(NextDungeon==true) {
         printf("Generating Dungeon...\n");
         GenerateDungeon();
-        printf("Generated %d rooms\n",RoomI);
-        printf("Generated %d doors\n",DoorI);
+        printf("Generated %d rooms\n",RoomI+1);
+        printf("Generated %d doors\n",DoorI+1);
         GenerateItems();
-        printf("Generated %d items\n",ItemI);
+        printf("Generated %d items\n",ItemI+1);
         GeneratePlayer();
         printf("Spawned player in room %d at %d,%d\n",CPlayer.Room,CPlayer.dx,CPlayer.dy);
         GenerateMonsters();
-        printf("Spawned %d monsters\n",MonsterI);
+        printf("Spawned %d monsters\n",MonsterI+1);
 
         if(DC==0) {
             //Instructions
