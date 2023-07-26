@@ -80,5 +80,8 @@ __asm__("jsr $ffd2");
 #define WRITE_CHAR(x,y,ch) \
     POKE(BASE_SCREEN_ADDRESS+(40*(y))+x, ch);
 
+#define POKE_INK(x,y,col) \
+    POKE(BASE_COLOR_ADDRESS+(40*(y))+x, col);
+
 #define WRITE_1U_DIGIT(x,y,val) \
     WRITE_CHAR(x,y, 48 + val);

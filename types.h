@@ -79,13 +79,13 @@ const int MHeight = 3;
 
 const char ChSpace = 32;
 const char ChMonster = 34;
-const char ChHash = 122;
-const char ChDollar = 120;
-const char ChDoor = 214;
-const char ChVWall = 166;
-const char ChHWall = 166;
+const char ChHash = 88;
+const char ChDollar = 90;
+const char ChDoor = 86;
+const char ChVWall = 102;
+const char ChHWall = 102;
 const char ChFrame = 42;
-const char ChPlayer = 119;
+const char ChPlayer = 87;
 
 /* Dictionarys for nouns and verbs*/
 char Noun[20][19] = {

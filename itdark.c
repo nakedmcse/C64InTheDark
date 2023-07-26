@@ -6,7 +6,7 @@
 #include "items.h"
 #include "monster.h"
 #include "player.h"
-#include "graphics.h"
+#include "graphics-poke.h"
 #include "input.h"
 #include<stdio.h>
 #include<conio.h>
@@ -42,13 +42,12 @@ int main(void) {
             NextMove();
         }
     
+        CLRSCR;
         GRAPHICS_ON;
-        DrawFrame();
         DrawDungeon();
         DrawPlayer();
         DrawMonsters();
         DrawStatus();
-        //DrawDebug();
         DrawScore();
 
         while(MDist!=0 && T<DT && NextMove()) {
@@ -57,9 +56,7 @@ int main(void) {
             DrawMonsters();
             MDist=HitMonster(CPlayer.x,CPlayer.y);
             DrawStatus();
-            //DrawDebug();
             DrawScore();
-            //gotoxy(0,SHeight-1);printf("after drawscore");
         }
 
         if(T<DT) {
@@ -67,14 +64,19 @@ int main(void) {
         }
         else {
             DC++;
+            CLRSCR;
+            SET_COLORS(C64_COLOR_BLACK,C64_COLOR_BLACK,C64_COLOR_GREEN);
+            _randomize();
         }
         GRAPHICS_OFF;
     }
 
     //Debug Info
+    /*
     DrawDebugRooms();
     NextMove();
     DrawDebugItems();
+    */
     NextMove();
     return EXIT_SUCCESS;
 }
