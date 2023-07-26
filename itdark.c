@@ -71,5 +71,10 @@ int main(void) {
         GRAPHICS_OFF;
     }
 
+    //Debug Info
+    DrawDebugRooms();
+    NextMove();
+    DrawDebugItems();
+    NextMove();
     return EXIT_SUCCESS;
 }

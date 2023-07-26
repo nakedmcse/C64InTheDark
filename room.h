@@ -86,7 +86,7 @@ int HitRoom(int x, int y) {
 bool CanSee(int RI,int RT) {
     bool found = false;
     int i = 0;
-    if(RI=RT) return true;
+    if(RI==RT) return true;
     while (i<=DoorI && !found) {
         if(((Doors[i].Room1I==RI && Doors[i].Room2I==RT)||(Doors[i].Room1I==RT && Doors[i].Room2I==RI)) && Doors[i].Opened) {
             found=true;

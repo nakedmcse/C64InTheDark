@@ -202,6 +202,24 @@ void DrawDebug() {
     printf("room %d: %d,%d,%d,%d",CPlayer.Room,Rooms[CPlayer.Room].x1,Rooms[CPlayer.Room].y1,Rooms[CPlayer.Room].x2,Rooms[CPlayer.Room].y2);
 }
 
+void DrawDebugRooms() {
+    int i=0;
+    CLRSCR;
+
+    for(i=0; i<=RoomI; i++) {
+        printf("Room %d - %d,%d %d,%d Show %d Disc %d\n",i,Rooms[i].x1,Rooms[i].y1,Rooms[i].x2,Rooms[i].y2,Rooms[i].ShowContents,Rooms[i].Discovered);
+    }
+}
+
+void DrawDebugItems() {
+    int i=0;
+    CLRSCR;
+
+    for(i=0; i<=ItemI; i++) {
+        printf("Item %d - Room %d %d,%d Type %d Taken %d\n",i,Items[i].x,Items[i].y,Items[i].Room,Items[i].IType,Items[i].Taken);
+    }
+}
+
 void DrawScore() {
     int i;
 
