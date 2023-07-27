@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <conio.h>
 #include <peekpoke.h>
@@ -162,18 +163,6 @@ void DrawRoom(Room *DR) {
     }
 }
 
-void DrawDoor(Door *DD) {
-    //DEPRECATED -- DO NOT USE -- Subsumed into DrawRoom for speed
-    unsigned char doorColor = L>0 ? C64_COLOR_BROWN : C64_COLOR_BLUE;
-    if(((Rooms[DD->Room1I].Discovered==true)||(Rooms[DD->Room2I].Discovered)) && DD->Opened==false) {
-        POKE_INK(DD->x,DD->y,doorColor);
-        WRITE_CHAR(DD->x,DD->y,ChDoor);
-    }
-    else if(DD->Opened==true) {
-        WRITE_CHAR(DD->x,DD->y,ChSpace);
-    }
-}
-
 void DrawItem(int i) {
     if(Items[i].Redraw==true) {
         Items[i].Redraw=false;
@@ -244,32 +233,6 @@ void DrawDungeon() {
     }
 }
 
-void DrawFrame() {
-    int x,y;
-    char c;
-
-    CLRSCR;
-    for(x=0; x<SWidth-1; x++) {
-        gotoxy(x,0);
-        printf("%c",ChFrame);
-        gotoxy(x,SHeight-1);
-        printf("%c",ChFrame);
-    }
-    gotoxy(SWidth-1,0);
-    printf("%c",ChFrame);
-
-    c=PEEK(0x7E6);
-    POKE(0x7E7,c);  //C64 specific - last screen char poked to avoid scroll
-
-    for(y=0; y<SHeight-1; y++) {
-        gotoxy(0,y);
-        printf("%c",ChFrame);
-        gotoxy(SWidth-1,y);
-        printf("%c",ChFrame);
-    }
-    gotoxy(0,0);
-}
-
 void DrawPlayer() {
     WRITE_CHAR(CPlayer.dx,CPlayer.dy,ChSpace);
     POKE_INK(CPlayer.x,CPlayer.y,C64_COLOR_WHITE);
@@ -278,41 +241,48 @@ void DrawPlayer() {
     CPlayer.dy=CPlayer.y;
 }
 
-void DrawStatus() {
-    int i;
+void PrintStatus(char *str) {
+    printf("%-*s",SWidth-7,str);
+}
 
-    for(i=0; i<SWidth-5; i++) {
-        WRITE_CHAR(i,SHeight-1,ChSpace);
-    }
+void DrawStatus() {
+    char StatusBuffer[40];
+
     gotoxy(0,SHeight-1);
 
     if(MDist==0) {
         if(L==0) {
-            printf("in the dark, grue talons drag you away.");
+            PrintStatus("in the dark, grue eats you");
         }
         else {
-            printf("you bump into a grue. Douses light, and you.");
+            PrintStatus("bump into a grue, and are eaten");
         }
     }
     else if(MDist!=-1 && MDist<2 && L==0) {
-        printf("grue breathing down your neck.");
+        PrintStatus("grue breathing down your neck");
     }
     else if(MDist!=-1 && MDist<4 && L==0) {
-        printf("grue talons tapping the tiles nearby.");
+        PrintStatus("grue talons tapping the tiles");
     }
     else if(CT>0) {
-        printf("found %s.",Noun[Items[CTreasure].D1]);
+        strcpy(StatusBuffer,"found ");
+        strcat(StatusBuffer,Noun[Items[CTreasure].D1]);
+        PrintStatus(StatusBuffer);
         CT--;
     }
     else {
         if(L==0) {
-            printf("dark, grue coming for you.");
+            PrintStatus("dark, grue coming for you");
         }
         else if(L<5) {
-            printf("%s grows dim. dark soon.",Noun[Items[CLight].D1]);
+            strcpy(StatusBuffer,Noun[Items[CLight].D1]);
+            strcat(StatusBuffer," grows dim - dark soon");
+            PrintStatus(StatusBuffer);
         }
         else {
-            printf("%s lights your way",Noun[Items[CLight].D1]);
+            strcpy(StatusBuffer,Noun[Items[CLight].D1]);
+            strcat(StatusBuffer," lights your way");
+            PrintStatus(StatusBuffer);
         }
     }
 }
@@ -341,14 +311,8 @@ void DrawDebugItems() {
 }
 
 void DrawScore() {
-    int i;
-
     gotoxy(SWidth-6, SHeight-1);
-    for(i=0; i<5; i++) {
-        printf("%c",ChSpace);
-    }
-    gotoxy(SWidth-6, SHeight-1);
-    printf("%d/%d",T,DT);
+    printf("%02d/%02d",T,DT);
 
     gotoxy(SWidth-12,0);
     printf("dungeon: %d",DC+1);
