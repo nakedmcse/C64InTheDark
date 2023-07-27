@@ -12,28 +12,158 @@
 /* Graphics */
 
 void DrawRoom(Room *DR) {
-    int i;
+    int i,j,RoomDoorIX,RoomDoorIY;
+    bool isDoor,isOpened,isDoor1,isOpened1;
     unsigned char wallColor = L>0 ? C64_COLOR_GREEN : C64_COLOR_BLUE;
+    unsigned char doorColor = L>0 ? C64_COLOR_BROWN : C64_COLOR_BLUE;
+    Door RoomDoorsX[6];
+    Door RoomDoorsY[6];
+
+    //Find doors for room
+    RoomDoorIX=0;
+    RoomDoorIY=0;
+    for(i=0;i<=DoorI;i++) {
+        if((Doors[i].x == DR->x1 || Doors[i].x == DR->x2) && Doors[i].y>=DR->y1 && Doors[i].y<=DR->y2) {
+            RoomDoorsX[RoomDoorIX]=Doors[i];
+            RoomDoorIX++;
+        }
+        else if((Doors[i].y == DR->y1 || Doors[i].y == DR->y2) && Doors[i].x>=DR->x1 && Doors[i].x<=DR->x2) {
+            RoomDoorsY[RoomDoorIY]=Doors[i];
+            RoomDoorIY++;
+        }
+    }
 
     if(DR->Discovered==true) {
         for(i=DR->x1; i<=DR->x2; i++) {
-            POKE_INK(i,DR->y1,wallColor);
-            WRITE_CHAR(i,DR->y1,ChHWall);
+            if(RoomDoorIY==0) {
+                //No doors draw wall
+                POKE_INK(i,DR->y1,wallColor);
+                WRITE_CHAR(i,DR->y1,ChHWall);
+            } else {
+                //Search Y axis doors
+                isDoor=false;
+                isOpened=false;
+                for(j=0; j<=RoomDoorIY; j++) {
+                    if(RoomDoorsY[j].x==i && RoomDoorsY[j].y==DR->y1) {
+                        isDoor=true;
+                        isOpened=RoomDoorsY[j].Opened;
+                    }
+                }
+                if(!isDoor) {
+                    //Not a door draw wall
+                    POKE_INK(i,DR->y1,wallColor);
+                    WRITE_CHAR(i,DR->y1,ChHWall);
+                }
+                else {
+                    if(!isOpened) {
+                        //Closed door
+                        POKE_INK(i,DR->y1,doorColor);
+                        WRITE_CHAR(i,DR->y1,ChDoor);
+                    }
+                    else {
+                        //Open door
+                        WRITE_CHAR(i,DR->y1,ChSpace);
+                    }
+                }
+            }
         }
+
         for(i=DR->y1+1; i<=DR->y2; i++) {
-            POKE_INK(DR->x1,i,wallColor);
-            POKE_INK(DR->x2,i,wallColor);
-            WRITE_CHAR(DR->x1,i,ChVWall);
-            WRITE_CHAR(DR->x2,i,ChVWall);
+            if(RoomDoorIX==0) {
+                //No doors draw walls
+                POKE_INK(DR->x1,i,wallColor);
+                POKE_INK(DR->x2,i,wallColor);
+                WRITE_CHAR(DR->x1,i,ChVWall);
+                WRITE_CHAR(DR->x2,i,ChVWall);
+            } else {
+                //Search X axis doors
+                isDoor=false;
+                isOpened=false;
+                isDoor1=false;
+                isOpened1=false;
+                for(j=0; j<=RoomDoorIX; j++) {
+                    if(RoomDoorsX[j].y==i && RoomDoorsX[j].x==DR->x1) {
+                        isDoor=true;
+                        isOpened=RoomDoorsX[j].Opened;
+                    }
+                    else if(RoomDoorsX[j].y==i && RoomDoorsX[j].x==DR->x2) {
+                        isDoor1=true;
+                        isOpened1=RoomDoorsX[j].Opened;
+                    }
+                }
+                if(!isDoor) {
+                    //Not a door draw wall at x1
+                    POKE_INK(DR->x1,i,wallColor);
+                    WRITE_CHAR(DR->x1,i,ChVWall);
+                }
+                else {
+                    if(!isOpened) {
+                        //Closed door at x1
+                        POKE_INK(DR->x1,i,doorColor);
+                        WRITE_CHAR(DR->x1,i,ChDoor);
+                    }
+                    else {
+                        //Open door at x1
+                        WRITE_CHAR(DR->x1,i,ChSpace);
+                    }
+                }
+                if(!isDoor1) {
+                    //Not a door draw wall at x2
+                    POKE_INK(DR->x2,i,wallColor);
+                    WRITE_CHAR(DR->x2,i,ChVWall);
+                }
+                else {
+                    if(!isOpened1) {
+                        //Closed door at x2
+                        POKE_INK(DR->x2,i,doorColor);
+                        WRITE_CHAR(DR->x2,i,ChDoor);
+                    }
+                    else {
+                        //Open door at x2
+                        WRITE_CHAR(DR->x2,i,ChSpace);
+                    }
+                }
+            }
         }
+
         for(i=DR->x1; i<=DR->x2; i++) {
-            POKE_INK(i,DR->y2,wallColor);
-            WRITE_CHAR(i,DR->y2,ChHWall);
+            if(RoomDoorIY==0) {
+                //No doors, draw wall
+                POKE_INK(i,DR->y2,wallColor);
+                WRITE_CHAR(i,DR->y2,ChHWall);
+            } else {
+                //Search Y axis doors
+                isDoor=false;
+                isOpened=false;
+                for(j=0; j<=RoomDoorIY; j++) {
+                    if(RoomDoorsY[j].x==i && RoomDoorsY[j].y==DR->y2) {
+                        isDoor=true;
+                        isOpened=RoomDoorsY[j].Opened;
+                    }
+                }
+                if(!isDoor) {
+                    //Not a door draw wall
+                    POKE_INK(i,DR->y2,wallColor);
+                    WRITE_CHAR(i,DR->y2,ChHWall);
+                }
+                else {
+                    if(!isOpened) {
+                        //Closed door
+                        POKE_INK(i,DR->y2,doorColor);
+                        WRITE_CHAR(i,DR->y2,ChDoor);
+                    }
+                    else {
+                        //Open door
+                        WRITE_CHAR(i,DR->y2,ChSpace);
+                    }
+                }
+            }
         }
     }
 }
 
 void DrawDoor(Door *DD) {
+    //DEPRECATED -- DO NOT USE -- Subsumed into DrawRoom for speed
     unsigned char doorColor = L>0 ? C64_COLOR_BROWN : C64_COLOR_BLUE;
     if(((Rooms[DD->Room1I].Discovered==true)||(Rooms[DD->Room2I].Discovered)) && DD->Opened==false) {
         POKE_INK(DD->x,DD->y,doorColor);
@@ -100,10 +230,6 @@ void DrawDungeon() {
         Rooms[i].Changed=(newShowContents!=Rooms[i].ShowContents);
         Rooms[i].ShowContents=newShowContents;
         DrawRoom(&Rooms[i]);
-    }
-
-    for(i=0; i<=DoorI; i++) {
-        DrawDoor(&Doors[i]);
     }
 
     for(i=0; i<ItemI; i++) {
@@ -218,7 +344,7 @@ void DrawScore() {
 
     gotoxy(SWidth-6, SHeight-1);
     for(i=0; i<5; i++) {
-        printf("%c",ChFrame);
+        printf("%c",ChSpace);
     }
     gotoxy(SWidth-6, SHeight-1);
     printf("%d/%d",T,DT);
