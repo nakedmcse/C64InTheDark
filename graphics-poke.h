@@ -234,6 +234,7 @@ void DrawDungeon() {
 
     for(i=0; i<ItemI; i++) {
         Items[i].Redraw = (Items[i].Redraw==true)||(Rooms[Items[I].Room].Changed==true);
+        if(CPlayer.Room == Items[i].Room) Items[i].Redraw = true;
         if((Rooms[Items[i].Room].ShowContents==false)||(Items[i].Taken==true)||(L==0)) {
             HideItem(i);
         }
