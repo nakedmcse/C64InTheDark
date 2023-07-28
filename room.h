@@ -82,6 +82,21 @@ int HitRoom(int x, int y) {
     return -1;
 };
 
+/* Check x,y to see if its a room vertex */
+bool HitVertex(int x, int y) {
+    bool found=false;
+    int i=0;
+    while (i<=RoomI && !found) {
+        if((x==Rooms[i].x1 && y==Rooms[i].y1)||(x==Rooms[i].x1 && y==Rooms[i].y2)||(x==Rooms[i].x2 && y==Rooms[i].y1)||(x==Rooms[i].x2 && y==Rooms[i].y2)) {
+            found=true;
+        }
+        else {
+            i++;
+        }
+    }
+    return found;
+}
+
 /* Check if Room Target can be seen from Room Index */
 bool CanSee(int RI,int RT) {
     bool found = false;
@@ -125,7 +140,7 @@ int RandomInRange(int min1, int min2, int max1, int max2) {
 };
 
 void GenerateDoors() {
-    int i,j;
+    int i,j,k;
     Room cr;
     Room tr;
 
@@ -141,21 +156,41 @@ void GenerateDoors() {
                 if(cr.x2==tr.x1 && tr.y1<cr.y2 && tr.y2>cr.y1) {
                     Doors[DoorI].x=cr.x2;
                     Doors[DoorI].y=RandomInRange(cr.y1,tr.y1,cr.y2,tr.y2);
+                    k=0;
+                    while(HitVertex(Doors[DoorI].x,Doors[DoorI].y) && k<4) {
+                        Doors[DoorI].y=RandomInRange(cr.y1,tr.y1,cr.y2,tr.y2);
+                        k++;
+                    };
                     DoorI++;
                 }
                 else if(cr.x1==tr.x2 && tr.y1<cr.y2 && tr.y2>cr.y1) {
                     Doors[DoorI].x=cr.x1;
                     Doors[DoorI].y=RandomInRange(cr.y1,tr.y1,cr.y2,tr.y2);
+                    k=0;
+                    while(HitVertex(Doors[DoorI].x,Doors[DoorI].y) && k<4) {
+                        Doors[DoorI].y=RandomInRange(cr.y1,tr.y1,cr.y2,tr.y2);
+                        k++;
+                    };
                     DoorI++;
                 }
                 else if(cr.y2==tr.y1 && tr.x1<cr.x2 && tr.x2>cr.x1) {
                     Doors[DoorI].y=cr.y2;
                     Doors[DoorI].x=RandomInRange(cr.x1,tr.x1,cr.x2,tr.x2);
+                    k=0;
+                    while(HitVertex(Doors[DoorI].x,Doors[DoorI].y) && k<4) {
+                        Doors[DoorI].x=RandomInRange(cr.x1,tr.x1,cr.x2,tr.x2);
+                        k++;
+                    };
                     DoorI++;
                 }
                 else if(cr.y1==tr.y2 && tr.x1<cr.x2 && tr.x2>cr.x1) {
                     Doors[DoorI].y=cr.y1;
                     Doors[DoorI].x=RandomInRange(cr.x1,tr.x1,cr.x2,tr.x2);
+                    k=0;
+                    while(HitVertex(Doors[DoorI].x,Doors[DoorI].y) && k<4) {
+                        Doors[DoorI].x=RandomInRange(cr.x1,tr.x1,cr.x2,tr.x2);
+                        k++;
+                    };
                     DoorI++;
                 }
             }
