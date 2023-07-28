@@ -303,8 +303,8 @@ bool NextRoom() {
 };
 
 void GenerateDungeon() {
-    RoomI=0;
     while(RoomI<5) {
+        RoomI=0;
         FirstRoom();
         while(RoomI<10 && NextRoom()) {};
     }
