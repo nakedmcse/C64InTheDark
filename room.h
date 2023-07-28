@@ -303,8 +303,9 @@ bool NextRoom() {
 };
 
 void GenerateDungeon() {
+    RoomI=0;  //Needs set here on change of level
     while(RoomI<5) {
-        RoomI=0;
+        RoomI=0;  //Also needs set here for re attempt
         FirstRoom();
         while(RoomI<10 && NextRoom()) {};
     }

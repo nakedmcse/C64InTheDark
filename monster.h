@@ -26,7 +26,7 @@ void GenerateMonsters() {
                 Monsters[MonsterI].y=Monsters[MonsterI].dy;
                 Monsters[MonsterI].Room = i;
                 hiti=HitItem(Monsters[MonsterI].x,Monsters[MonsterI].y);
-                if((Monsters[MonsterI].x!=CPlayer.x) && (Monsters[MonsterI].y!=CPlayer.y) && (hiti==-1)) {
+                if(!(Monsters[MonsterI].x==CPlayer.x && Monsters[MonsterI].y==CPlayer.y) && (hiti==-1)) {
                     valid=true;
                 }
             }
