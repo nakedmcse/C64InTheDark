@@ -164,13 +164,14 @@ void DrawRoom(Room *DR) {
 }
 
 void DrawItem(int i) {
+    unsigned char itemCol = L>0 ? C64_COLOR_YELLOW : C64_COLOR_BLUE;
     if(Items[i].Redraw==true) {
         Items[i].Redraw=false;
         if(Items[i].IType==1) {
-            POKE_INK(Items[i].x,Items[i].y,C64_COLOR_YELLOW);
+            POKE_INK(Items[i].x,Items[i].y,itemCol);
             WRITE_CHAR(Items[i].x,Items[i].y,ChHash);
         } else if(Items[i].IType==2) {
-            POKE_INK(Items[i].x,Items[i].y,C64_COLOR_YELLOW);
+            POKE_INK(Items[i].x,Items[i].y,itemCol);
             WRITE_CHAR(Items[i].x,Items[i].y,ChDollar);
         }
         else {
@@ -185,6 +186,10 @@ void HideItem(int i) {
         Items[i].Redraw=false;
         WRITE_CHAR(Items[i].x,Items[i].y,ChSpace);
     }
+}
+
+bool InLightCone(int x, int y) {
+    return (x<=CPlayer.x+1 && x>=CPlayer.x-1 && y<=CPlayer.y+1 && y>=CPlayer.y-1);
 }
 
 void DrawMonster(int i, char glyph) {
@@ -203,7 +208,7 @@ void DrawMonsters() {
 
     for(i=0; i<=MonsterI; i++) {
         glyph=ChSpace;
-        if((Rooms[Monsters[i].Room].ShowContents==true)&& L>0) {
+        if((Rooms[Monsters[i].Room].ShowContents==true) && (L>0 || InLightCone(Monsters[i].x,Monsters[i].y))) {
             glyph=ChMonster;
         }
         DrawMonster(i,glyph);
@@ -221,10 +226,10 @@ void DrawDungeon() {
         DrawRoom(&Rooms[i]);
     }
 
-    for(i=0; i<ItemI; i++) {
+    for(i=0; i<=ItemI; i++) {
         Items[i].Redraw = (Items[i].Redraw==true)||(Rooms[Items[I].Room].Changed==true);
         if(CPlayer.Room == Items[i].Room) Items[i].Redraw = true;
-        if((Rooms[Items[i].Room].ShowContents==false)||(Items[i].Taken==true)||(L==0)) {
+        if((Rooms[Items[i].Room].ShowContents==false)||(Items[i].Taken==true)||(L==0 && !InLightCone(Items[i].x,Items[i].y))) {
             HideItem(i);
         }
         else {
