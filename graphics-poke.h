@@ -188,7 +188,8 @@ void HideItem(int i) {
     }
 }
 
-bool InLightCone(int x, int y) {
+bool InLightCone(int Room,int x, int y) {
+    if(Room!=CPlayer.Room) return false;
     return (x<=CPlayer.x+1 && x>=CPlayer.x-1 && y<=CPlayer.y+1 && y>=CPlayer.y-1);
 }
 
@@ -208,7 +209,7 @@ void DrawMonsters() {
 
     for(i=0; i<=MonsterI; i++) {
         glyph=ChSpace;
-        if((Rooms[Monsters[i].Room].ShowContents==true) && (L>0 || InLightCone(Monsters[i].x,Monsters[i].y))) {
+        if((Rooms[Monsters[i].Room].ShowContents==true) && (L>0 || InLightCone(Monsters[i].Room,Monsters[i].x,Monsters[i].y))) {
             glyph=ChMonster;
         }
         DrawMonster(i,glyph);
@@ -229,7 +230,7 @@ void DrawDungeon() {
     for(i=0; i<=ItemI; i++) {
         Items[i].Redraw = (Items[i].Redraw==true)||(Rooms[Items[I].Room].Changed==true);
         if(CPlayer.Room == Items[i].Room) Items[i].Redraw = true;
-        if((Rooms[Items[i].Room].ShowContents==false)||(Items[i].Taken==true)||(L==0 && !InLightCone(Items[i].x,Items[i].y))) {
+        if((Rooms[Items[i].Room].ShowContents==false)||(Items[i].Taken==true)||(L==0 && !InLightCone(Items[i].Room,Items[i].x,Items[i].y))) {
             HideItem(i);
         }
         else {

@@ -9,7 +9,7 @@
 /* monster mash */
 
 void GenerateMonsters() {
-    int i,p,hiti;
+    int i,p,t,hiti;
     bool valid;
 
     MDist=-1;
@@ -19,7 +19,8 @@ void GenerateMonsters() {
         valid=false;
         p=rand() % 100;
         if(p>60) {
-            while(valid==false) {
+            t=0;
+            while(valid==false && t<5) {
                 Monsters[MonsterI].dx=(rand() % (Rooms[i].x2-Rooms[i].x1-2)) + Rooms[i].x1 + 1;
                 Monsters[MonsterI].dy=(rand() % (Rooms[i].y2-Rooms[i].y1-2)) + Rooms[i].y1 + 1;
                 Monsters[MonsterI].x=Monsters[MonsterI].dx;
@@ -29,6 +30,7 @@ void GenerateMonsters() {
                 if(!(Monsters[MonsterI].x==CPlayer.x && Monsters[MonsterI].y==CPlayer.y) && (hiti==-1)) {
                     valid=true;
                 }
+                t++;
             }
             MonsterI++;
         }
