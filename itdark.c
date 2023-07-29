@@ -12,6 +12,8 @@
 #include<conio.h>
 
 int main(void) {
+    int line,col,droll;
+    unsigned char CHBan;
     bool NextDungeon = true;
 
     CLRSCR;
@@ -23,6 +25,21 @@ int main(void) {
     DC=0;
 
     while(NextDungeon==true) {
+        if (DC==0) {
+            //Banner
+            for(line=0; line<5; line++) {
+                for(col=0; col<SWidth; col++) {
+                    droll = rand() % 10;
+                    CHBan = droll<=5 ? 95 : 105;
+                    WRITE_CHAR(col,line,CHBan);
+                }
+            }
+            SET_INK(C64_COLOR_WHITE);
+            gotoxy(12,2);
+            printf("-* IN THE DARK *-");
+            SET_INK(C64_COLOR_GREEN);
+            gotoxy(0,6);
+        }
         printf("Generating Dungeon...\n");
         GenerateDungeon();
         printf("Generated %d rooms\n",RoomI+1);
