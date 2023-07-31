@@ -89,9 +89,9 @@ int main(void) {
     }
 
     //Debug Info
-    DrawDebugRooms();
-    NextMove();
-    DrawDebugItems();
-    NextMove();
+    //DrawDebugRooms();
+    //NextMove();
+    //DrawDebugItems();
+    //NextMove();
     return EXIT_SUCCESS;
 }

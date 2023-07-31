@@ -62,8 +62,8 @@ void DrawRoom(Room *DR) {
                         WRITE_CHAR(i,DR->y1,ChDoor);
                     }
                     else {
-                        //Open door
-                        WRITE_CHAR(i,DR->y1,ChSpace);
+                        //Open door - if player not in way
+                        if(CPlayer.x != i && CPlayer.y != DR->y1) WRITE_CHAR(i,DR->y1,ChSpace);
                     }
                 }
             }
@@ -104,8 +104,8 @@ void DrawRoom(Room *DR) {
                         WRITE_CHAR(DR->x1,i,ChDoor);
                     }
                     else {
-                        //Open door at x1
-                        WRITE_CHAR(DR->x1,i,ChSpace);
+                        //Open door at x1 if player not there
+                        if(CPlayer.x != DR->x1 && CPlayer.y != i) WRITE_CHAR(DR->x1,i,ChSpace);
                     }
                 }
                 if(!isDoor1) {
@@ -120,8 +120,8 @@ void DrawRoom(Room *DR) {
                         WRITE_CHAR(DR->x2,i,ChDoor);
                     }
                     else {
-                        //Open door at x2
-                        WRITE_CHAR(DR->x2,i,ChSpace);
+                        //Open door at x2 if player not in door
+                        if(CPlayer.x != DR->x2 && CPlayer.y != i) WRITE_CHAR(DR->x2,i,ChSpace);
                     }
                 }
             }
@@ -154,8 +154,8 @@ void DrawRoom(Room *DR) {
                         WRITE_CHAR(i,DR->y2,ChDoor);
                     }
                     else {
-                        //Open door
-                        WRITE_CHAR(i,DR->y2,ChSpace);
+                        //Open door if player not in door
+                        if(CPlayer.x != i && CPlayer.y != DR->y2) WRITE_CHAR(i,DR->y2,ChSpace);
                     }
                 }
             }
