@@ -2,7 +2,7 @@
 This is Commodore 64 port of In the Dark.
 
 Compile with CC65 on a linux system to generate the prg file using the following command:
-cl65 -o itdark.prg -t c64 itdark.c
+cl65 -o itdark.prg -t c64 itdark.c endscreen.s
 
 Note well - do NOT use the -O optimze switch - it breaks handling of loop exits and booleans in general.
 

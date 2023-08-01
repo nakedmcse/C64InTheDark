@@ -323,7 +323,7 @@ void DrawScore() {
     printf("dungeon: %d",DC+1);
 }
 
-void DrawIntro() {
+void DrawPrintTen() {
     int line,col,droll;
     unsigned char CHBan;
     for(line=0; line<5; line++) {
@@ -333,9 +333,26 @@ void DrawIntro() {
                     WRITE_CHAR(col,line,CHBan);
                 }
             }
+}
+
+void DrawIntro() {
+    DrawPrintTen();
     SET_INK(C64_COLOR_WHITE);
     gotoxy(12,2);
     printf("-* IN THE DARK *-");
     SET_INK(C64_COLOR_GREEN);
     gotoxy(0,6);
+}
+
+void DrawEnd() {
+    int l=0;
+    DrawPrintTen();
+    SET_INK(C64_COLOR_WHITE);
+    gotoxy(9,2);
+    printf("-* EATEN BY A GRUE *-");
+    SET_INK(C64_COLOR_GREEN);
+    for(l=0; l<80; l++) {
+        POKE_INK(l,5,C64_COLOR_BLUE);
+        WRITE_CHAR(l,5,endScreen[l]);
+    }
 }

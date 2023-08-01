@@ -79,6 +79,8 @@ int main(void) {
     //DrawDebugRooms();
     //NextMove();
     //DrawDebugItems();
-    //NextMove();
+    CLRSCR;
+    DrawEnd();
+    NextMove();
     return EXIT_SUCCESS;
 }

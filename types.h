@@ -133,3 +133,5 @@ char Adjective[20][19] = {
     "gigantic",
     "clockwork"
 };
+
+extern const char endScreen[];
