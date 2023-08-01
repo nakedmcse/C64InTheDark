@@ -2,9 +2,14 @@
 This is Commodore 64 port of In the Dark.
 
 Compile with CC65 on a linux system to generate the prg file using the following command:
-cl65 -O -o itdark.prg -t c64 itdark.c
+cl65 -o itdark.prg -t c64 itdark.c
+
+Note well - do NOT use the -O optimze switch - it breaks handling of loop exits and booleans in general.
 
 The prg file can then be loaded onto a real commodore 64 or started in VICE using Smart Attach -> Choose prg file and hit Autostart.
+
+VICE can also be used to create a D64 image that can be loaded on a real C64:
+c1541 -format inthedark,id d64 inthedark.d64 -attach inthedark.d64 -write itdark.prg
 
 The original can be found here:
 https://github.com/kianryan/InTheDark
