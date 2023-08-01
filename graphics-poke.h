@@ -11,6 +11,9 @@
 //#include "room.h"
 
 /* Graphics */
+#define INLIGHTCONE(x,y,px,py) \
+    ((x == px + 1 || x == px - 1 || x == px) && \
+     (y == py + 1 || y == py - 1 || y == py))
 
 void DrawRoom(Room *DR) {
     int i,j,RoomDoorIX,RoomDoorIY;
@@ -188,10 +191,6 @@ void HideItem(int i) {
     }
 }
 
-bool InLightCone(int R,int x, int y) {
-    return ((R!=CPlayer.Room) && (x==CPlayer.x+1 || x==CPlayer.x-1 || x==CPlayer.x) && (y==CPlayer.y+1 || y==CPlayer.y-1 || y==CPlayer.y)); 
-}
-
 void DrawMonster(int i, char glyph) {
     if(!(Monsters[i].dx==CPlayer.x && Monsters[i].dy==CPlayer.y)) {
         WRITE_CHAR(Monsters[i].dx,Monsters[i].dy,ChSpace);
@@ -208,7 +207,7 @@ void DrawMonsters() {
 
     for(i=0; i<=MonsterI; i++) {
         glyph=ChSpace;
-        if((Rooms[Monsters[i].Room].ShowContents==true) && (L>0 || (Monsters[i].Room==CPlayer.Room && Monsters[i].x >= CPlayer.x-1 && Monsters[i].x <= CPlayer.x+1 && Monsters[i].y >= CPlayer.y-1 && Monsters[i].y <= CPlayer.y+1))) {
+        if((Rooms[Monsters[i].Room].ShowContents==true) && (L>0 || (Monsters[i].Room==CPlayer.Room && INLIGHTCONE(Monsters[i].x,Monsters[i].y,CPlayer.x,CPlayer.y)))) {
             glyph=ChMonster;
         }
         DrawMonster(i,glyph);
@@ -226,11 +225,11 @@ void DrawDungeon() {
         DrawRoom(&Rooms[i]);
     }
 
+    Rooms[CPlayer.Room].Changed = true;
+
     for(i=0; i<=ItemI; i++) {
         Items[i].Redraw = (Items[i].Redraw==true)||(Rooms[Items[I].Room].Changed==true);
-        if(CPlayer.Room == Items[i].Room) Items[i].Redraw = true;
-        //if((Rooms[Items[i].Room].ShowContents==false)||(Items[i].Taken==true)||(L==0 && !InLightCone(Items[i].Room,Items[i].x,Items[i].y))) {
-        if((Rooms[Items[i].Room].ShowContents==false)||(Items[i].Taken==true)||(L==0 && !(Items[i].x >= CPlayer.x-1 && Items[i].x <= CPlayer.x+1 && Items[i].y >= CPlayer.y-1 && Items[i].y <= CPlayer.y+1))) {
+        if((Rooms[Items[i].Room].ShowContents==false)||(Items[i].Taken==true)||(L==0 && !INLIGHTCONE(Items[i].x,Items[i].y,CPlayer.x,CPlayer.y))) {
             HideItem(i);
         }
         else {
@@ -322,4 +321,21 @@ void DrawScore() {
 
     gotoxy(SWidth-12,0);
     printf("dungeon: %d",DC+1);
+}
+
+void DrawIntro() {
+    int line,col,droll;
+    unsigned char CHBan;
+    for(line=0; line<5; line++) {
+                for(col=0; col<SWidth; col++) {
+                    droll = rand() % 10;
+                    CHBan = droll<=5 ? 95 : 105;
+                    WRITE_CHAR(col,line,CHBan);
+                }
+            }
+    SET_INK(C64_COLOR_WHITE);
+    gotoxy(12,2);
+    printf("-* IN THE DARK *-");
+    SET_INK(C64_COLOR_GREEN);
+    gotoxy(0,6);
 }
