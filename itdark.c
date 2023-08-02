@@ -12,7 +12,7 @@
 #include<conio.h>
 
 int main(void) {
-    bool NextDungeon = true;
+    NextDungeon = true;
 
     CLRSCR;
     SET_COLORS(C64_COLOR_BLACK,C64_COLOR_BLACK,C64_COLOR_GREEN);

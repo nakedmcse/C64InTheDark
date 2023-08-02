@@ -49,23 +49,23 @@ typedef struct Monster {
 } Monster;
 
 /* Global Variables */
-Room Rooms[10];
-int RoomI;
+static Room Rooms[10];
+static int RoomI;
 
-Door Doors[40];
-int DoorI;
+static Door Doors[40];
+static int DoorI;
 
-Item Items[50];
-int ItemI,CLight,CTreasure;
+static Item Items[50];
+static int ItemI,CLight,CTreasure;
 
-Monster Monsters[10];
-int MonsterI;
+static Monster Monsters[10];
+static int MonsterI;
 
-Player CPlayer;
-int D,MDist,I,L,T,DT,CT;
+static Player CPlayer;
+static int D,MDist,L,T,DT,CT;
 
-int DC;
-bool NextDungeon;
+static int DC;
+static bool NextDungeon;
 
 /* Constants */
 const int SWidth = 40;

@@ -152,12 +152,12 @@ void GenerateDoors() {
             Doors[DoorI].Room1I=i;
             Doors[DoorI].Room2I=j;
             Doors[DoorI].Opened=false;
-            if(DoorNotFound(i,j)) {
+            if(DoorNotFound(i,j)==true) {
                 if(cr.x2==tr.x1 && tr.y1<cr.y2 && tr.y2>cr.y1) {
                     Doors[DoorI].x=cr.x2;
                     Doors[DoorI].y=RandomInRange(cr.y1,tr.y1,cr.y2,tr.y2);
                     k=0;
-                    while(HitVertex(Doors[DoorI].x,Doors[DoorI].y) && k<4) {
+                    while(HitVertex(Doors[DoorI].x,Doors[DoorI].y)==true && k<4) {
                         Doors[DoorI].y=RandomInRange(cr.y1,tr.y1,cr.y2,tr.y2);
                         k++;
                     };
@@ -167,7 +167,7 @@ void GenerateDoors() {
                     Doors[DoorI].x=cr.x1;
                     Doors[DoorI].y=RandomInRange(cr.y1,tr.y1,cr.y2,tr.y2);
                     k=0;
-                    while(HitVertex(Doors[DoorI].x,Doors[DoorI].y) && k<4) {
+                    while(HitVertex(Doors[DoorI].x,Doors[DoorI].y)==true && k<4) {
                         Doors[DoorI].y=RandomInRange(cr.y1,tr.y1,cr.y2,tr.y2);
                         k++;
                     };
@@ -177,7 +177,7 @@ void GenerateDoors() {
                     Doors[DoorI].y=cr.y2;
                     Doors[DoorI].x=RandomInRange(cr.x1,tr.x1,cr.x2,tr.x2);
                     k=0;
-                    while(HitVertex(Doors[DoorI].x,Doors[DoorI].y) && k<4) {
+                    while(HitVertex(Doors[DoorI].x,Doors[DoorI].y)==true && k<4) {
                         Doors[DoorI].x=RandomInRange(cr.x1,tr.x1,cr.x2,tr.x2);
                         k++;
                     };
@@ -187,7 +187,7 @@ void GenerateDoors() {
                     Doors[DoorI].y=cr.y1;
                     Doors[DoorI].x=RandomInRange(cr.x1,tr.x1,cr.x2,tr.x2);
                     k=0;
-                    while(HitVertex(Doors[DoorI].x,Doors[DoorI].y) && k<4) {
+                    while(HitVertex(Doors[DoorI].x,Doors[DoorI].y)==true && k<4) {
                         Doors[DoorI].x=RandomInRange(cr.x1,tr.x1,cr.x2,tr.x2);
                         k++;
                     };
@@ -210,7 +210,7 @@ bool NextRoom() {
     cr = Rooms[RoomI];
     TryAgain = true;
 
-    while(TryAgain) {
+    while(TryAgain==true) {
         w=(rand() % (UWidth-LWidth))+LWidth+1;
         h=(rand() % (UHeight-LHeight))+LHeight+1;
         Rooms[RoomI+1].Discovered=false;
@@ -305,9 +305,8 @@ bool NextRoom() {
 void GenerateDungeon() {
     RoomI=0;  //Needs set here on change of level
     while(RoomI<5) {
-        RoomI=0;  //Also needs set here for re attempt
         FirstRoom();
-        while(RoomI<10 && NextRoom()) {};
+        while(RoomI<10 && NextRoom()==true) {};
     }
     GenerateDoors();
 }

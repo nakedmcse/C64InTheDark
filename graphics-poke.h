@@ -228,7 +228,7 @@ void DrawDungeon() {
     Rooms[CPlayer.Room].Changed = true;
 
     for(i=0; i<=ItemI; i++) {
-        Items[i].Redraw = (Items[i].Redraw==true)||(Rooms[Items[I].Room].Changed==true);
+        Items[i].Redraw = (Items[i].Redraw==true)||(Rooms[Items[i].Room].Changed==true);
         if((Rooms[Items[i].Room].ShowContents==false)||(Items[i].Taken==true)||(L==0 && !INLIGHTCONE(Items[i].x,Items[i].y,CPlayer.x,CPlayer.y))) {
             HideItem(i);
         }
@@ -351,7 +351,7 @@ void DrawEnd() {
     gotoxy(9,2);
     printf("-* EATEN BY A GRUE *-");
     SET_INK(C64_COLOR_GREEN);
-    for(l=0; l<80; l++) {
+    for(l=0; l<160; l++) {
         POKE_INK(l,5,C64_COLOR_BLUE);
         WRITE_CHAR(l,5,endScreen[l]);
     }
