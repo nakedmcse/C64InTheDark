@@ -135,3 +135,4 @@ char Adjective[20][19] = {
 };
 
 extern const char endScreen[];
+extern const char endColor[];

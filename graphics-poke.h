@@ -351,8 +351,8 @@ void DrawEnd() {
     gotoxy(9,2);
     printf("-* EATEN BY A GRUE *-");
     SET_INK(C64_COLOR_GREEN);
-    for(l=0; l<160; l++) {
-        POKE_INK(l,5,C64_COLOR_BLUE);
+    for(l=0; l<240; l++) {
+        POKE_INK(l,5,endColor[l]);
         WRITE_CHAR(l,5,endScreen[l]);
     }
 }
