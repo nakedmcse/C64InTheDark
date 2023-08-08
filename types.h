@@ -88,7 +88,7 @@ const char ChFrame = 42;
 const char ChPlayer = 87;
 
 /* Dictionarys for nouns and verbs*/
-char Noun[20][19] = {
+static char Noun[20][19] = {
     "match",
     "candle",
     "glow worms",
@@ -109,29 +109,6 @@ char Noun[20][19] = {
     "piece of eight",
     "fish scale",
     "carpenters chalice"
-};
-
-char Adjective[20][19] = {
-    "glimmering",
-    "shimmering",
-    "bright",
-    "golden",
-    "sparkling",
-    "battery powered",
-    "radiant",
-    "luminos",
-    "flashing",
-    "brilliant",
-    "wooden",
-    "illustrated",
-    "golden",
-    "bejewled",
-    "plain",
-    "resplendant",
-    "ghostly",
-    "oozing",
-    "gigantic",
-    "clockwork"
 };
 
 extern const char endScreen[];
