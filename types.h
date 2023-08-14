@@ -113,3 +113,10 @@ static char Noun[20][19] = {
 
 extern const char endScreen[];
 extern const char endColor[];
+
+extern const char UDGWall[];
+extern const char UDGPlayer[];
+extern const char UDGGrue[];
+extern const char UDGTreasure[];
+extern const char UDGLight[];
+extern const char UDGDoor[];

@@ -356,3 +356,27 @@ void DrawEnd() {
         WRITE_CHAR(l,5,endScreen[l]);
     }
 }
+
+void SetCustomChars() {
+    VIC_INT_OFF;
+    EA_DEACTIVATE;
+    //Copy charset to ram
+    memcpy((void *)BASE_CHAR_ADDRESS,(void *)0xD000,2048);
+    EA_ACTIVATE;
+    VIC_INT_ON;
+    SET_CHARRAM;
+
+    //Wall
+    memcpy((void *)(BASE_CHAR_ADDRESS+(ChHWall*8)),&UDGWall[0],8);
+    memcpy((void *)(BASE_CHAR_ADDRESS+(ChVWall*8)),&UDGWall[0],8);
+    //Player
+    memcpy((void *)(BASE_CHAR_ADDRESS+(ChPlayer*8)),&UDGPlayer[0],8);
+    //Monster
+    memcpy((void *)(BASE_CHAR_ADDRESS+(ChMonster*8)),&UDGGrue[0],8);
+    //Treasure
+    memcpy((void *)(BASE_CHAR_ADDRESS+(ChDollar*8)),&UDGTreasure[0],8);
+    //Light
+    memcpy((void *)(BASE_CHAR_ADDRESS+(ChHash*8)),&UDGLight[0],8);
+    //Door
+    memcpy((void *)(BASE_CHAR_ADDRESS+(ChDoor*8)),&UDGDoor[0],8);
+}

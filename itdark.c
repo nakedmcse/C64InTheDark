@@ -12,11 +12,12 @@
 #include<conio.h>
 
 int main(void) {
-    
+    SetCustomChars();
     while(true) {
         NextDungeon = true;
         CLRSCR;
         SET_COLORS(C64_COLOR_BLACK,C64_COLOR_BLACK,C64_COLOR_GREEN);
+        GRAPHICS_OFF;
         _randomize();
         MDist=0;
         CT=0;
@@ -48,7 +49,7 @@ int main(void) {
             }
     
             CLRSCR;
-            GRAPHICS_ON;
+            SET_CHARRAM;
             DrawDungeon();
             DrawPlayer();
             DrawMonsters();

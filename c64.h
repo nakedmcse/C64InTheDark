@@ -58,6 +58,7 @@ __asm__("sta $c6");
 /* Screen Macros */
 #define BASE_SCREEN_ADDRESS 0x0400
 #define BASE_COLOR_ADDRESS  0xD800
+#define BASE_CHAR_ADDRESS   0x3000
 
 #define CLRSCR \
 __asm__("lda #$93"); \
@@ -76,6 +77,21 @@ __asm__("jsr $ffd2");
 
 #define GRAPHICS_OFF \
     POKE(0xD018,23);
+
+#define VIC_INT_OFF \
+    POKE(56334U,(PEEK(56334U) & 254));
+
+#define VIC_INT_ON \
+    POKE(56334U,(PEEK(56334U) | 1));
+
+#define EA_DEACTIVATE \
+    POKE(1U,(PEEK(1U) & 251));
+
+#define EA_ACTIVATE \
+    POKE(1U,(PEEK(1U) | 4));
+
+#define SET_CHARRAM \
+    POKE(53272U,(PEEK(53272U) & 240) | 12);
 
 #define WRITE_CHAR(x,y,ch) \
     POKE(BASE_SCREEN_ADDRESS+(40*(y))+x, ch);
