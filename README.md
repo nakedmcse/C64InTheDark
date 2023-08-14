@@ -18,3 +18,9 @@ This was designed for the C64 or above.  It MAY work with a fully expanded 16K V
 
 NOTE:
 The BASIC version has been abandonned in favor of a C port, for speed reasons.
+
+If you want to play the game then you can download the binary here:  
+https://github.com/nakedmcse/C64InTheDark/raw/main/inthedark.d64
+
+And then boot it in a javascript emulator here:  
+https://c64emulator.111mb.de/index.php?site=pp_javascript&group=c64
